@@ -22,6 +22,7 @@ public class Bob {
         while (!input.equals("bye")) {
             if (input.equals("list")) {
                 System.out.println(line);
+                System.out.println("  Here are the tasks currently in your list:");
                 for (int j = 0; j < i; j++) {
                     int index = j + 1;
                     System.out.println("  " + index + ". " + tasks[j].toString());
