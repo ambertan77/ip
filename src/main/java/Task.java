@@ -8,19 +8,20 @@ public class Task {
     }
 
     public String getStatusIcon() {
-        return (isDone ? "X" : " "); // mark done task with X
+        return (isDone ? "[X]" : "[ ]"); // mark done task with X
     }
 
-    public String markAsDone() {
+    public void markAsDone() {
         this.isDone = true;
-        String task = getStatusIcon() + " " + this.description;
-        return task;
     }
 
-    public String markAsUndone() {
+    public void markAsUndone() {
         this.isDone = false;
-        String task =  getStatusIcon() + " " + this.description;
-        return task;
+    }
+
+    @Override
+    public String toString() {
+        return getStatusIcon() + " " + this.description;
     }
 }
 
