@@ -6,7 +6,7 @@ public class Bob {
         String indent = "  ";
         String line = "  ______________________________________________";
         String name = "Bob";
-        String greeting = "  Hello! I'm " + name + " :) " + "\n  Let's add to your list!\n" + line;
+        String greeting = "  Hello! I'm " + name + " :)" + "\n  Let's add to your list!\n" + line;
         String mark = "  Nice! I've marked this task as done:\n";
         String unmark = "  OK, I've marked this task as not done yet:\n";
         String add = "  Got it. I've added this task:";
