@@ -10,7 +10,7 @@ public class Bob {
         String mark = "  Nice! I've marked this task as done:\n";
         String unmark = "  OK, I've marked this task as not done yet:\n";
         String add = "  Got it. I've added this task:";
-        String exit = line + "\n" + "  Goodbye, hope to see you again soon! \n" + line;
+        String exit = line + "\n" + "  Goodbye, hope to see you again soon!\n" + line;
         Task[] tasks = new Task[100];
         int i = 0;
 
@@ -59,7 +59,7 @@ public class Bob {
                     String to = split[2].substring(3);
                     tasks[i] = new Event(desc, from, to);
                 }
-                System.out.println(line + "\n  added: " + add);
+                System.out.println(line + "\n" + add);
                 System.out.println(indent + " " + tasks[i].toString());
                 i++;
                 System.out.println(indent + "Now you have " + i + " tasks in the list.\n" + line);
