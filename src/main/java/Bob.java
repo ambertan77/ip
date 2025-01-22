@@ -1,4 +1,4 @@
-import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Bob {
@@ -71,7 +71,7 @@ public class Bob {
         String unmark = "  OK, I've marked this task as not done yet:\n";
         String add = "  Got it. I've added this task:";
         String exit = line + "\n" + "  Goodbye, hope to see you again soon!\n" + line;
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<Task>(100);
         int i = 0;
 
         System.out.println(line);
@@ -88,30 +88,30 @@ public class Bob {
                 System.out.println("  Here are the tasks currently in your list:");
                 for (int j = 0; j < i; j++) {
                     int index = j + 1;
-                    System.out.println("  " + index + ". " + tasks[j].toString());
+                    System.out.println("  " + index + ". " + tasks.get(j).toString());
                 }
                 System.out.println(line);
             } else if (input.startsWith("mark ")) {
                 System.out.println(line);
                 int index = Integer.valueOf(input.substring(5));
                 index--;
-                Task task = tasks[index];
+                Task task = tasks.get(index);
                 task.markAsDone();
                 System.out.println(mark + "   " + task.toString() + "\n" + line);
             } else if (input.startsWith("unmark ")) {
                 System.out.println(line);
                 int index = Integer.valueOf(input.substring(7));
                 index--;
-                Task task = tasks[index];
+                Task task = tasks.get(index);
                 task.markAsUndone();
                 System.out.println(unmark + "   " + task.toString() + "\n" + line);
             } else {
                 if (i >= 100) {
                     System.out.println("List is full.");
                 }
-                tasks[i] = createTask(input);
+                tasks.add(createTask(input));
                 System.out.println(line + "\n" + add);
-                System.out.println(indent + " " + tasks[i].toString());
+                System.out.println(indent + " " + tasks.get(i).toString());
                 i++;
                 System.out.println(indent + "Now you have " + i + " tasks in the list.\n" + line);
             }
