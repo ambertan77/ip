@@ -70,6 +70,7 @@ public class Bob {
         String mark = "  Nice! I've marked this task as done:\n";
         String unmark = "  OK, I've marked this task as not done yet:\n";
         String add = "  Got it. I've added this task:";
+        String delete = "  Alright, I've removed this task from your list:";
         String exit = line + "\n" + "  Goodbye, hope to see you again soon!\n" + line;
         ArrayList<Task> tasks = new ArrayList<Task>(100);
         int i = 0;
@@ -105,6 +106,15 @@ public class Bob {
                 Task task = tasks.get(index);
                 task.markAsUndone();
                 System.out.println(unmark + "   " + task.toString() + "\n" + line);
+            } else if (input.startsWith("delete ")) {
+                System.out.println(line + "\n" + delete);
+                int index = Integer.valueOf(input.substring(7));
+                index--;
+                Task task = tasks.get(index);
+                System.out.println(indent + " " + task.toString());
+                tasks.remove(index);
+                i--;
+                System.out.println(indent + "Now you have " + i + " tasks in the list.\n" + line);
             } else {
                 if (i >= 100) {
                     System.out.println("List is full.");
