@@ -4,10 +4,15 @@
 public class Task {
     protected String description;
     protected boolean isDone;
+    public enum Type {
+        TODO, DEADLINE, EVENT
+    }
+    protected Type type;
 
-    public Task(String description) {
+    public Task(String description, Type type) {
         this.description = description;
         this.isDone = false;
+        this.type = type;
     }
 
     public String getStatusIcon() {

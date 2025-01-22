@@ -4,7 +4,7 @@
 public class Todos extends Task {
 
     public Todos(String description) {
-        super(description);
+        super(description, Type.TODO);
     }
 
     @Override
