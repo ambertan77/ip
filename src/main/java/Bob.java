@@ -1,8 +1,68 @@
+import java.sql.Array;
 import java.util.Scanner;
 
 public class Bob {
 
-    public static void main(String[] args) {
+    public static Task createTask(String input) throws Exception {
+        if (input.startsWith("todo")) {
+            String desc = input.substring(4);
+            if (desc.equals("")) {
+                throw new Exception("I can't create tasks with no descriptions :(");
+            }
+            return new Todos(desc.substring(1));
+        } else if (input.startsWith("deadline")) {
+            if (input.substring(8).equals("")) {
+                throw new Exception("I can't create tasks with no descriptions :(");
+            }
+            String[] split = input.split(" /");
+            String desc = split[0].substring(9);
+            if (desc.equals("")) {
+                throw new Exception("I can't create tasks with no descriptions :(");
+            }
+            try {
+                String deadline = split[1].substring(3);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new ArrayIndexOutOfBoundsException("Please add the deadline!");
+            }
+            String deadline = split[1].substring(3);
+            if (deadline.equals("")) {
+                throw new Exception("Please add a deadline!");
+            }
+            return new Deadline(desc, deadline);
+        } else if (input.startsWith("event")) {
+            if (input.substring(5).equals("")) {
+                throw new Exception("I can't create tasks with no descriptions :(");
+            }
+            String[] split = input.split(" /");
+            try {
+                String desc = split[0].substring(6);
+            } catch (StringIndexOutOfBoundsException e1) {
+                throw new StringIndexOutOfBoundsException("I can't create tasks with no descriptions :(");
+            }
+            String desc = split[0].substring(6);
+            if (desc.equals("")) {
+                throw new Exception("I can't create tasks with no descriptions :(");
+            }
+            try {
+                String from = split[1].substring(5);
+                String to = split[2].substring(3);
+            } catch (StringIndexOutOfBoundsException e1) {
+                throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            } catch (ArrayIndexOutOfBoundsException e2){
+                throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            }
+            String from = split[1].substring(5);
+            String to = split[2].substring(3);
+            if (from.equals("") || to.equals("")) {
+                throw new Exception("Please add both the starting and ending date/time!");
+            }
+            return new Event(desc, from, to);
+        }
+
+        throw new Exception("Please choose between creating a todo, deadline or event!");
+    }
+
+    public static void main(String[] args) throws Exception {
         String indent = "  ";
         String line = "  ______________________________________________";
         String name = "Bob";
@@ -22,6 +82,9 @@ public class Bob {
         while (!input.equals("bye")) {
             if (input.equals("list")) {
                 System.out.println(line);
+                if (i == 0) {
+                    throw new Exception("Please add tasks into the list first!");
+                }
                 System.out.println("  Here are the tasks currently in your list:");
                 for (int j = 0; j < i; j++) {
                     int index = j + 1;
@@ -46,20 +109,7 @@ public class Bob {
                 if (i >= 100) {
                     System.out.println("List is full.");
                 }
-                if (input.startsWith("todo ")) {
-                    tasks[i] = new Todos(input.substring(5));
-                } else if (input.startsWith("deadline ")) {
-                    String[] split = input.split(" /");
-                    String desc = split[0].substring(9);
-                    String deadline = split[1].substring(3);
-                    tasks[i] = new Deadline(desc, deadline);
-                } else if (input.startsWith("event ")) {
-                    String[] split = input.split(" /");
-                    String desc = split[0].substring(6);
-                    String from = split[1].substring(5);
-                    String to = split[2].substring(3);
-                    tasks[i] = new Event(desc, from, to);
-                }
+                tasks[i] = createTask(input);
                 System.out.println(line + "\n" + add);
                 System.out.println(indent + " " + tasks[i].toString());
                 i++;
