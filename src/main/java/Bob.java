@@ -195,6 +195,7 @@ public class Bob {
 
     // create a method to write over text
     // method adapted from course website, under W3.4
+    // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
     private static void writeToFile(String filePath, Task task) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         String text = "";
@@ -216,6 +217,7 @@ public class Bob {
 
     // create a method to append text to file instead of write over
     // method adapted from course website, under W3.4
+    // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
     private static void appendToFile(String filePath, Task task) throws IOException {
         FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
         String text = "";
@@ -241,6 +243,8 @@ public class Bob {
         Command command;
 
         // create file to store the list of tasks
+        // code adapted from:
+        // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
         File data = new File("./data/tasks.txt");
         File directory = data.getParentFile();
         if (!directory.exists()) {
