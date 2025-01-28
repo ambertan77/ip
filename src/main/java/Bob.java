@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Bob {
 
     // store the current count of tasks in the list
-    private static int i = 0;
+    private static int count = 0;
     // store the list of tasks
     private static ArrayList<Task> tasks = new ArrayList<Task>(100);
 
@@ -82,7 +82,6 @@ public class Bob {
             }
             return new Event(desc, from, to);
         }
-
         // user inputs an unsupported command
         throw new Exception("Please choose between creating a todo, deadline or event!");
     }
@@ -98,56 +97,56 @@ public class Bob {
         String exit = line + "\n" + "  Goodbye, hope to see you again soon!\n" + line;
 
         switch(command) {
-            case LIST:
-                System.out.println(line);
-                if (i == 0) {
-                    // do not allow users to command "list" before adding to the list
-                    throw new Exception("Please add tasks into the list first!");
-                }
-                // print tasks in the list
-                System.out.println("  Here are the tasks currently in your list:");
-                for (int j = 0; j < i; j++) {
-                    int index = j + 1;
-                    System.out.println("  " + index + ". " + tasks.get(j).toString());
-                }
-                System.out.println(line);
-                return;
-            case MARK:
-                // mark task as done
-                System.out.println(line);
-                int indexToMark = Integer.valueOf(input.substring(5));
-                indexToMark--;
-                Task taskToMark = tasks.get(indexToMark);
-                taskToMark.markAsDone();
-                System.out.println(mark + "   " + taskToMark.toString() + "\n" + line);
-                return;
-            case UNMARK:
-                // mark task as not done
-                System.out.println(line);
-                int indexToUnmark = Integer.valueOf(input.substring(7));
-                indexToUnmark--;
-                Task taskToUnmark = tasks.get(indexToUnmark);
-                taskToUnmark.markAsUndone();
-                System.out.println(unmark + "   " + taskToUnmark.toString() + "\n" + line);
-                return;
-            case DELETE:
-                // delete the task specified by the user
-                System.out.println(line + "\n" + delete);
-                int indexToDelete = Integer.valueOf(input.substring(7));
-                indexToDelete--;
-                Task taskToDelete = tasks.get(indexToDelete);
-                System.out.println(indent + " " + taskToDelete.toString());
-                tasks.remove(taskToDelete); // remove task from the list of tasks
-                i--; // decrement total count of tasks
-                System.out.println(indent + "Now you have " + i + " tasks in the list.\n" + line);
-                return;
-            case CREATE:
-                // call helper method to create the task
-                tasks.add(createTask(input));
-                System.out.println(line + "\n" + add);
-                System.out.println(indent + " " + tasks.get(i).toString());
-                i++; // increment total count of tasks
-                System.out.println(indent + "Now you have " + i + " tasks in the list.\n" + line);
+        case LIST:
+            System.out.println(line);
+            if (count == 0) {
+                // do not allow users to command "list" before adding to the list
+                throw new Exception("Please add tasks into the list first!");
+            }
+            // print tasks in the list
+            System.out.println("  Here are the tasks currently in your list:");
+            for (int j = 0; j < count; j++) {
+                int index = j + 1;
+                System.out.println("  " + index + ". " + tasks.get(j).toString());
+            }
+            System.out.println(line);
+            return;
+        case MARK:
+            // mark task as done
+            System.out.println(line);
+            int indexToMark = Integer.valueOf(input.substring(5));
+            indexToMark--;
+            Task taskToMark = tasks.get(indexToMark);
+            taskToMark.markAsDone();
+            System.out.println(mark + "   " + taskToMark.toString() + "\n" + line);
+            return;
+        case UNMARK:
+            // mark task as not done
+            System.out.println(line);
+            int indexToUnmark = Integer.valueOf(input.substring(7));
+            indexToUnmark--;
+            Task taskToUnmark = tasks.get(indexToUnmark);
+            taskToUnmark.markAsUndone();
+            System.out.println(unmark + "   " + taskToUnmark.toString() + "\n" + line);
+            return;
+        case DELETE:
+            // delete the task specified by the user
+            System.out.println(line + "\n" + delete);
+            int indexToDelete = Integer.valueOf(input.substring(7));
+            indexToDelete--;
+            Task taskToDelete = tasks.get(indexToDelete);
+            System.out.println(indent + " " + taskToDelete.toString());
+            tasks.remove(taskToDelete); // remove task from the list of tasks
+            count--; // decrement total count of tasks
+            System.out.println(indent + "Now you have " + count + " tasks in the list.\n" + line);
+            return;
+        case CREATE:
+            // call helper method to create the task
+            tasks.add(createTask(input));
+            System.out.println(line + "\n" + add);
+            System.out.println(indent + " " + tasks.get(count).toString());
+            count++; // increment total count of tasks
+            System.out.println(indent + "Now you have " + count + " tasks in the list.\n" + line);
         }
     }
 
