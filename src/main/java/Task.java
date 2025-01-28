@@ -31,5 +31,17 @@ public class Task {
     public String toString() {
         return getStatusIcon() + " " + this.description;
     }
+
+    public String getType() throws Exception {
+        if (type == Type.DEADLINE) return "D";
+        else if (type == Type.EVENT) return "E";
+        else if (type == Type.TODO) return "T";
+        else throw new Exception("The type of task is not supported by Bob.");
+    }
+
+    public int getStatus() {
+        if (isDone) return 1;
+        else return 0;
+    }
 }
 

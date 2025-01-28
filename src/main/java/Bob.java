@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Bob {
 
@@ -118,6 +121,17 @@ public class Bob {
             indexToMark--;
             Task taskToMark = tasks.get(indexToMark);
             taskToMark.markAsDone();
+            try {
+                String filePath = "./data/tasks.txt";
+                Task firstTask = tasks.get(0);
+                writeToFile(filePath, firstTask);
+                for (int i = 1; i < count; i++) {
+                    Task task = tasks.get(i);
+                    appendToFile(filePath, task);
+                }
+            } catch (IOException e) {
+                System.out.println("Unable to write to file: " + e.getMessage());
+            }
             System.out.println(mark + "   " + taskToMark.toString() + "\n" + line);
             return;
         case UNMARK:
@@ -127,6 +141,17 @@ public class Bob {
             indexToUnmark--;
             Task taskToUnmark = tasks.get(indexToUnmark);
             taskToUnmark.markAsUndone();
+            try {
+                String filePath = "./data/tasks.txt";
+                Task firstTask = tasks.get(0);
+                writeToFile(filePath, firstTask);
+                for (int i = 1; i < count; i++) {
+                    Task task = tasks.get(i);
+                    appendToFile(filePath, task);
+                }
+            } catch (IOException e) {
+                System.out.println("Unable to write to file: " + e.getMessage());
+            }
             System.out.println(unmark + "   " + taskToUnmark.toString() + "\n" + line);
             return;
         case DELETE:
@@ -138,11 +163,29 @@ public class Bob {
             System.out.println(indent + " " + taskToDelete.toString());
             tasks.remove(taskToDelete); // remove task from the list of tasks
             count--; // decrement total count of tasks
+            try {
+                String filePath = "./data/tasks.txt";
+                Task firstTask = tasks.get(0);
+                writeToFile(filePath, firstTask);
+                for (int i = 1; i < count; i++) {
+                    Task task = tasks.get(i);
+                    appendToFile(filePath, task);
+                }
+            } catch (IOException e) {
+                System.out.println("Unable to write to file: " + e.getMessage());
+            }
             System.out.println(indent + "Now you have " + count + " tasks in the list.\n" + line);
             return;
         case CREATE:
             // call helper method to create the task
-            tasks.add(createTask(input));
+            Task task = createTask(input);
+            tasks.add(task);
+            try {
+                String filePath = "./data/tasks.txt";
+                appendToFile(filePath, task);
+            } catch (IOException e) {
+                System.out.println("Unable to write to file: " + e.getMessage());
+            }
             System.out.println(line + "\n" + add);
             System.out.println(indent + " " + tasks.get(count).toString());
             count++; // increment total count of tasks
@@ -150,9 +193,62 @@ public class Bob {
         }
     }
 
+    // create a method to write over text
+    // method adapted from course website, under W3.4
+    private static void writeToFile(String filePath, Task task) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        String text = "";
+        if (task instanceof Deadline) {
+            Deadline deadlineTask = (Deadline) task;
+            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
+                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+        } else if (task instanceof Event) {
+            Event event = (Event) task;
+            text = "E | " + event.getStatus() + " | " + event.getDescription()
+                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+        } else if (task instanceof Todos) {
+            Todos todo = (Todos) task;
+            text = "T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+        }
+        fw.write(text);
+        fw.close();
+    }
+
+    // create a method to append text to file instead of write over
+    // method adapted from course website, under W3.4
+    private static void appendToFile(String filePath, Task task) throws IOException {
+        FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
+        String text = "";
+        if (task instanceof Deadline) {
+            Deadline deadlineTask = (Deadline) task;
+            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
+                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+        } else if (task instanceof Event) {
+            Event event = (Event) task;
+            text = "E | " + event.getStatus() + " | " + event.getDescription()
+                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+        } else if (task instanceof Todos) {
+            Todos todo = (Todos) task;
+            text = " T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+        }
+        fw.write(text);
+        fw.close();
+    }
+
+
     public static void main(String[] args) throws Exception {
 
         Command command;
+
+        // create file to store the list of tasks
+        File data = new File("./data/tasks.txt");
+        File directory = data.getParentFile();
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        if (!data.exists()) {
+            data.createNewFile();
+        }
 
         // strings to be printed in the different scenarios
         String indent = "  ";
