@@ -11,4 +11,12 @@ public class Todos extends Task {
     public String toString() {
         return "[T]" + super.toString();
     }
+
+    public String getType() {
+        return "T";
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 }
