@@ -201,15 +201,15 @@ public class Bob {
         String text = "";
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
-            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
-                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+            text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                    + " / " + deadlineTask.getDeadline() + System.lineSeparator();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = "E | " + event.getStatus() + " | " + event.getDescription()
-                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+            text = "E / " + event.getStatus() + " / " + event.getDescription()
+                    + " / " + event.getFrom() + " / " + event.getTo() + System.lineSeparator();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = "T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+            text = "T / " + todo.getStatus() + " / " + todo.getDescription() + System.lineSeparator();
         }
         fw.write(text);
         fw.close();
@@ -223,18 +223,46 @@ public class Bob {
         String text = "";
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
-            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
-                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+            text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                    + " / " + deadlineTask.getDeadline() + System.lineSeparator();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = "E | " + event.getStatus() + " | " + event.getDescription()
-                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+            text = "E / " + event.getStatus() + " / " + event.getDescription()
+                    + " / " + event.getFrom() + " / " + event.getTo() + System.lineSeparator();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = " T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+            text = " T / " + todo.getStatus() + " / " + todo.getDescription() + System.lineSeparator();
         }
         fw.write(text);
         fw.close();
+    }
+
+    private static Task createTaskFromFile(String storedInput) {
+        Task output = null;
+        String[] split = storedInput.split(" / ");
+        if (storedInput.startsWith("D")) {
+            output = new Deadline(split[2], split[3]);
+        } else if (storedInput.startsWith("E")) {
+            output = new Event(split[2], split[3], split[4]);
+        } else {
+            output = new Todos(split[2]);
+        }
+        if (storedInput.charAt(4) == '1') {
+            output.markAsDone();
+        }
+        return output;
+    }
+
+    // code adapted from course website, W3.4c
+    private static void addFileContents() throws FileNotFoundException {
+        File f = new File("./data/tasks.txt");
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String storedInput = s.nextLine();
+            Task storedTask = createTaskFromFile(storedInput);
+            tasks.add(storedTask);
+            count++;
+        }
     }
 
 
@@ -252,6 +280,8 @@ public class Bob {
         }
         if (!data.exists()) {
             data.createNewFile();
+        } else {
+            addFileContents();
         }
 
         // strings to be printed in the different scenarios
