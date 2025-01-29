@@ -10,6 +10,7 @@ public class Bob {
     private static int count = 0;
     // store the list of tasks
     private static ArrayList<Task> tasks = new ArrayList<Task>(100);
+    private static boolean isNewFile = false;
 
     // all supported commands
     public enum Command {
@@ -165,11 +166,17 @@ public class Bob {
             count--; // decrement total count of tasks
             try {
                 String filePath = "./data/tasks.txt";
+                File data = new File(filePath);
                 Task firstTask = tasks.get(0);
                 writeToFile(filePath, firstTask);
                 for (int i = 1; i < count; i++) {
                     Task task = tasks.get(i);
-                    appendToFile(filePath, task);
+                    if (isNewFile) {
+                        writeToFile(filePath, task);
+                        isNewFile = false;
+                    } else {
+                        appendToFile(filePath, task);
+                    }
                 }
             } catch (IOException e) {
                 System.out.println("Unable to write to file: " + e.getMessage());
@@ -202,14 +209,14 @@ public class Bob {
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
             text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
-                    + " / " + deadlineTask.getDeadline() + System.lineSeparator();
+                    + " / " + deadlineTask.getDeadline();
         } else if (task instanceof Event) {
             Event event = (Event) task;
             text = "E / " + event.getStatus() + " / " + event.getDescription()
-                    + " / " + event.getFrom() + " / " + event.getTo() + System.lineSeparator();
+                    + " / " + event.getFrom() + " / " + event.getTo();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = "T / " + todo.getStatus() + " / " + todo.getDescription() + System.lineSeparator();
+            text = " T / " + todo.getStatus() + " / " + todo.getDescription();
         }
         fw.write(text);
         fw.close();
@@ -223,15 +230,15 @@ public class Bob {
         String text = "";
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
-            text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
-                    + " / " + deadlineTask.getDeadline() + System.lineSeparator();
+            text = System.lineSeparator() + "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                    + " / " + deadlineTask.getDeadline();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = "E / " + event.getStatus() + " / " + event.getDescription()
-                    + " / " + event.getFrom() + " / " + event.getTo() + System.lineSeparator();
+            text = System.lineSeparator() +  "E / " + event.getStatus() + " / " + event.getDescription()
+                    + " / " + event.getFrom() + " / " + event.getTo();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = " T / " + todo.getStatus() + " / " + todo.getDescription() + System.lineSeparator();
+            text = System.lineSeparator() + "T / " + todo.getStatus() + " / " + todo.getDescription();
         }
         fw.write(text);
         fw.close();
@@ -280,6 +287,7 @@ public class Bob {
         }
         if (!data.exists()) {
             data.createNewFile();
+            isNewFile = true;
         } else {
             addFileContents();
         }
