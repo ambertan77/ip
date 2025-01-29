@@ -82,11 +82,11 @@ public class Storage {
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
         if (storedInput.startsWith("D")) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
             LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
             output = new Deadline(split[2], deadline);
         } else if (storedInput.startsWith("E")) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
             LocalDateTime from = LocalDateTime.parse(split[3], formatter);
             LocalDateTime to = LocalDateTime.parse(split[4], formatter);
             output = new Event(split[2], from, to);

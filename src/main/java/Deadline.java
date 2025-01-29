@@ -28,7 +28,7 @@ public class Deadline extends Task {
 
     // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
     public String getDeadline() {
-        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.deadline.format(outputStringFormat);
     }
 }
