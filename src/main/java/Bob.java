@@ -8,11 +8,8 @@ import java.time.LocalDateTime;
 import java.io.FileNotFoundException;
 
 public class Bob {
-
-    // store the current count of tasks in the list
-    private static int count = 0;
     // store the list of tasks
-    private static ArrayList<Task> tasks = new ArrayList<Task>(100);
+    private static TaskList tasks = new TaskList(new ArrayList<Task>(100));
     private static boolean isNewFile = false;
 
     // all supported commands
@@ -113,13 +110,13 @@ public class Bob {
         switch(command) {
         case LIST:
             System.out.println(line);
-            if (count == 0) {
+            if (tasks.count == 0) {
                 // do not allow users to command "list" before adding to the list
                 throw new Exception("Please add tasks into the list first!");
             }
             // print tasks in the list
             System.out.println("  Here are the tasks currently in your list:");
-            for (int j = 0; j < count; j++) {
+            for (int j = 0; j < tasks.count; j++) {
                 int index = j + 1;
                 System.out.println("  " + index + ". " + tasks.get(j).toString());
             }
@@ -136,7 +133,7 @@ public class Bob {
                 String filePath = "./data/tasks.txt";
                 Task firstTask = tasks.get(0);
                 writeToFile(filePath, firstTask);
-                for (int i = 1; i < count; i++) {
+                for (int i = 1; i < tasks.count; i++) {
                     Task task = tasks.get(i);
                     appendToFile(filePath, task);
                 }
@@ -156,7 +153,7 @@ public class Bob {
                 String filePath = "./data/tasks.txt";
                 Task firstTask = tasks.get(0);
                 writeToFile(filePath, firstTask);
-                for (int i = 1; i < count; i++) {
+                for (int i = 1; i < tasks.count; i++) {
                     Task task = tasks.get(i);
                     appendToFile(filePath, task);
                 }
@@ -173,13 +170,13 @@ public class Bob {
             Task taskToDelete = tasks.get(indexToDelete);
             System.out.println(indent + " " + taskToDelete.toString());
             tasks.remove(taskToDelete); // remove task from the list of tasks
-            count--; // decrement total count of tasks
+            tasks.count--; // decrement total count of tasks
             try {
                 String filePath = "./data/tasks.txt";
                 File data = new File(filePath);
                 Task firstTask = tasks.get(0);
                 writeToFile(filePath, firstTask);
-                for (int i = 1; i < count; i++) {
+                for (int i = 1; i < tasks.count; i++) {
                     Task task = tasks.get(i);
                     if (isNewFile) {
                         writeToFile(filePath, task);
@@ -191,7 +188,7 @@ public class Bob {
             } catch (IOException e) {
                 System.out.println("Unable to write to file: " + e.getMessage());
             }
-            System.out.println(indent + "Now you have " + count + " tasks in the list.\n" + line);
+            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
             return;
         case CREATE:
             // call helper method to create the task
@@ -204,9 +201,9 @@ public class Bob {
                 System.out.println("Unable to write to file: " + e.getMessage());
             }
             System.out.println(line + "\n" + add);
-            System.out.println(indent + " " + tasks.get(count).toString());
-            count++; // increment total count of tasks
-            System.out.println(indent + "Now you have " + count + " tasks in the list.\n" + line);
+            System.out.println(indent + " " + tasks.get(tasks.count).toString());
+            tasks.count++; // increment total count of tasks
+            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
         }
     }
 
@@ -283,7 +280,7 @@ public class Bob {
             String storedInput = s.nextLine();
             Task storedTask = createTaskFromFile(storedInput);
             tasks.add(storedTask);
-            count++;
+            tasks.count++;
         }
     }
 
