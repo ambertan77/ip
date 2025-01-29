@@ -1,5 +1,8 @@
+package bob;
+
+import bob.task.Task;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Bob {
     private String filePath;

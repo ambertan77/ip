@@ -1,4 +1,4 @@
-// solution below adapted from partial solution provided in course website
+package bob.task;// solution below adapted from partial solution provided in course website
 // https://nus-cs2103-ay2425s2.github.io/website/schedule/week2/project.html under A-Inheritance
 
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public class Event extends Task {
     protected LocalDateTime to;
 
     public Event(String description, LocalDateTime from, LocalDateTime to) {
-        super(description, Type.EVENT);
+        super(description, Task.Type.EVENT);
         this.from = from;
         this.to = to;
     }

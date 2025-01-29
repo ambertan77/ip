@@ -1,3 +1,10 @@
+package bob;
+
+import bob.task.Deadline;
+import bob.task.Event;
+import bob.task.Task;
+import bob.task.Todos;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

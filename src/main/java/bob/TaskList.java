@@ -1,3 +1,7 @@
+package bob;
+
+import bob.task.Task;
+
 import java.util.ArrayList;
 
 public class TaskList {

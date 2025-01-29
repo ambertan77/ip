@@ -1,4 +1,4 @@
-// solution below adapted from partial solution provided in course website
+package bob.task;// solution below adapted from partial solution provided in course website
 // https://nus-cs2103-ay2425s2.github.io/website/schedule/week2/project.html under A-Inheritance
 
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ public class Deadline extends Task {
     protected LocalDateTime deadline;
 
     public Deadline(String description, LocalDateTime deadline) {
-        super(description, Type.DEADLINE);
+        super(description, Task.Type.DEADLINE);
         this.deadline = deadline;
     }
 
