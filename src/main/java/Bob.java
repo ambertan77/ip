@@ -1,8 +1,11 @@
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.io.FileNotFoundException;
 
 public class Bob {
 
@@ -49,7 +52,10 @@ public class Bob {
                 // user did not add a deadline
                 throw new Exception("Please add a deadline!");
             }
-            return new Deadline(desc, deadline);
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
         } else if (input.startsWith("event")) {
             if (input.substring(5).equals("")) {
                 // empty description
@@ -84,7 +90,11 @@ public class Bob {
                 // empty "from" or "to fields
                 throw new Exception("Please add both the starting and ending date/time!");
             }
-            return new Event(desc, from, to);
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Event(
+                    desc, LocalDateTime.parse(from, inputDateTimeFormat), LocalDateTime.parse(to, inputDateTimeFormat));
         }
         // user inputs an unsupported command
         throw new Exception("Please choose between creating a todo, deadline or event!");
@@ -248,9 +258,14 @@ public class Bob {
         Task output = null;
         String[] split = storedInput.split(" / ");
         if (storedInput.startsWith("D")) {
-            output = new Deadline(split[2], split[3]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
+            output = new Deadline(split[2], deadline);
         } else if (storedInput.startsWith("E")) {
-            output = new Event(split[2], split[3], split[4]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime from = LocalDateTime.parse(split[3], formatter);
+            LocalDateTime to = LocalDateTime.parse(split[4], formatter);
+            output = new Event(split[2], from, to);
         } else {
             output = new Todos(split[2]);
         }
