@@ -1,12 +1,15 @@
 // solution below adapted from partial solution provided in course website
 // https://nus-cs2103-ay2425s2.github.io/website/schedule/week2/project.html under A-Inheritance
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
 
-    protected String from;
-    protected String to;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description, Type.EVENT);
         this.from = from;
         this.to = to;
@@ -14,7 +17,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[E]" + super.toString() + " (from " + this.getFrom() + " to " + this.getTo() + ")";
     }
 
     public String getType() {
@@ -25,11 +28,15 @@ public class Event extends Task {
         return this.description;
     }
 
+    // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
     public String getFrom() {
-        return this.from;
+        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+        return this.from.format(outputStringFormat);
     }
 
+    // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
     public String getTo() {
-        return this.to;
+        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+        return this.to.format(outputStringFormat);
     }
 }
