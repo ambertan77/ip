@@ -15,6 +15,23 @@ public class Storage {
         this.tasks = tasks;
     }
 
+    public void loadFile(String filePath) throws java.io.IOException {
+        // create file to store the list of tasks
+        // code adapted from:
+        // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
+        File data = new File("./data/tasks.txt");
+        File directory = data.getParentFile();
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        if (!data.exists()) {
+            data.createNewFile();
+            isNewFile = true;
+        } else {
+            addFileContents();
+        }
+    }
+
     // create a method to write over text
     // method adapted from course website, under W3.4
     // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/

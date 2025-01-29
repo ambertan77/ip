@@ -1,38 +1,17 @@
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class Bob {
-    // store the list of tasks
+    private static String filePath = "./data/tasks.txt";
     private static TaskList tasks = new TaskList(new ArrayList<Task>(100));
     private static Storage storage = new Storage(tasks);
     private static Parser parser = new Parser(tasks, storage);
 
-    // all supported commands
-    public enum Command {
-        LIST, MARK, UNMARK, DELETE, CREATE
-    }
-
     public static void main(String[] args) throws Exception {
-
-        Command command;
-
-        // create file to store the list of tasks
-        // code adapted from:
-        // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
-        File data = new File("./data/tasks.txt");
-        File directory = data.getParentFile();
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        if (!data.exists()) {
-            data.createNewFile();
-            storage.isNewFile = true;
-        } else {
-            storage.addFileContents();
+        try {
+            storage.loadFile(filePath);
+        } catch (java.io.IOException e) {
+            System.out.println(e.getMessage());
         }
 
         // strings to be printed in the different scenarios
