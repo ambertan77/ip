@@ -1,8 +1,11 @@
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.io.FileNotFoundException;
 
 public class Bob {
 
@@ -10,6 +13,7 @@ public class Bob {
     private static int count = 0;
     // store the list of tasks
     private static ArrayList<Task> tasks = new ArrayList<Task>(100);
+    private static boolean isNewFile = false;
 
     // all supported commands
     public enum Command {
@@ -48,7 +52,10 @@ public class Bob {
                 // user did not add a deadline
                 throw new Exception("Please add a deadline!");
             }
-            return new Deadline(desc, deadline);
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
         } else if (input.startsWith("event")) {
             if (input.substring(5).equals("")) {
                 // empty description
@@ -83,7 +90,11 @@ public class Bob {
                 // empty "from" or "to fields
                 throw new Exception("Please add both the starting and ending date/time!");
             }
-            return new Event(desc, from, to);
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Event(
+                    desc, LocalDateTime.parse(from, inputDateTimeFormat), LocalDateTime.parse(to, inputDateTimeFormat));
         }
         // user inputs an unsupported command
         throw new Exception("Please choose between creating a todo, deadline or event!");
@@ -165,11 +176,17 @@ public class Bob {
             count--; // decrement total count of tasks
             try {
                 String filePath = "./data/tasks.txt";
+                File data = new File(filePath);
                 Task firstTask = tasks.get(0);
                 writeToFile(filePath, firstTask);
                 for (int i = 1; i < count; i++) {
                     Task task = tasks.get(i);
-                    appendToFile(filePath, task);
+                    if (isNewFile) {
+                        writeToFile(filePath, task);
+                        isNewFile = false;
+                    } else {
+                        appendToFile(filePath, task);
+                    }
                 }
             } catch (IOException e) {
                 System.out.println("Unable to write to file: " + e.getMessage());
@@ -201,15 +218,15 @@ public class Bob {
         String text = "";
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
-            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
-                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+            text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                    + " / " + deadlineTask.getDeadline();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = "E | " + event.getStatus() + " | " + event.getDescription()
-                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+            text = "E / " + event.getStatus() + " / " + event.getDescription()
+                    + " / " + event.getFrom() + " / " + event.getTo();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = "T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+            text = " T / " + todo.getStatus() + " / " + todo.getDescription();
         }
         fw.write(text);
         fw.close();
@@ -223,18 +240,51 @@ public class Bob {
         String text = "";
         if (task instanceof Deadline) {
             Deadline deadlineTask = (Deadline) task;
-            text = "D | " + deadlineTask.getStatus() + " | " + deadlineTask.getDescription()
-                    + " | " + deadlineTask.getDeadline() + System.lineSeparator();
+            text = System.lineSeparator() + "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                    + " / " + deadlineTask.getDeadline();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = "E | " + event.getStatus() + " | " + event.getDescription()
-                    + " | " + event.getFrom() + " | " + event.getTo() + System.lineSeparator();
+            text = System.lineSeparator() +  "E / " + event.getStatus() + " / " + event.getDescription()
+                    + " / " + event.getFrom() + " / " + event.getTo();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
-            text = " T | " + todo.getStatus() + " | " + todo.getDescription() + System.lineSeparator();
+            text = System.lineSeparator() + "T / " + todo.getStatus() + " / " + todo.getDescription();
         }
         fw.write(text);
         fw.close();
+    }
+
+    private static Task createTaskFromFile(String storedInput) {
+        Task output = null;
+        String[] split = storedInput.split(" / ");
+        if (storedInput.startsWith("D")) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
+            output = new Deadline(split[2], deadline);
+        } else if (storedInput.startsWith("E")) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime from = LocalDateTime.parse(split[3], formatter);
+            LocalDateTime to = LocalDateTime.parse(split[4], formatter);
+            output = new Event(split[2], from, to);
+        } else {
+            output = new Todos(split[2]);
+        }
+        if (storedInput.charAt(4) == '1') {
+            output.markAsDone();
+        }
+        return output;
+    }
+
+    // code adapted from course website, W3.4c
+    private static void addFileContents() throws FileNotFoundException {
+        File f = new File("./data/tasks.txt");
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String storedInput = s.nextLine();
+            Task storedTask = createTaskFromFile(storedInput);
+            tasks.add(storedTask);
+            count++;
+        }
     }
 
 
@@ -252,6 +302,9 @@ public class Bob {
         }
         if (!data.exists()) {
             data.createNewFile();
+            isNewFile = true;
+        } else {
+            addFileContents();
         }
 
         // strings to be printed in the different scenarios
