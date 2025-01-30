@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Storage {
@@ -83,22 +84,40 @@ public class Storage {
         fw.close();
     }
 
-    public Task createTaskFromFile(String storedInput) {
+    public Task createTaskFromFile(String storedInput) throws Exception {
         Task output = null;
         String[] split = storedInput.split(" / ");
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
         if (storedInput.startsWith("D")) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
-            LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
-            output = new Deadline(split[2], deadline);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+                LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
+                output = new Deadline(split[2], deadline);
+            } catch (ArrayIndexOutOfBoundsException e1) {
+                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
+            } catch (DateTimeParseException e2) {
+                throw new Exception("Ensure that the deadline is given in the correct format.");
+            }
         } else if (storedInput.startsWith("E")) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
-            LocalDateTime from = LocalDateTime.parse(split[3], formatter);
-            LocalDateTime to = LocalDateTime.parse(split[4], formatter);
-            output = new Event(split[2], from, to);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+                LocalDateTime from = LocalDateTime.parse(split[3], formatter);
+                LocalDateTime to = LocalDateTime.parse(split[4], formatter);
+                output = new Event(split[2], from, to);
+            } catch (ArrayIndexOutOfBoundsException e1) {
+                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
+            } catch (DateTimeParseException e2) {
+                throw new Exception("Ensure that the deadline is given in the correct format.");
+            }
+        } else if (storedInput.startsWith("T")) {
+            try {
+                output = new Todos(split[2]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
+            }
         } else {
-            output = new Todos(split[2]);
+            throw new Exception("Ensure that the tasks in file are either a Deadline task, Event task or Todo task.");
         }
         if (storedInput.charAt(4) == '1') {
             output.markAsDone();
