@@ -51,6 +51,11 @@ public class TaskList {
         tasks.add(newTask);
     }
 
+    /**
+     * Finds all the tasks that match the keyword used.
+     *
+     * @param key The keyword used to search.
+     */
     public ArrayList<Task> find(String key) {
         ArrayList<Task> result = new ArrayList<>();
         for (int i = 0; i < this.tasks.size(); i++) {
