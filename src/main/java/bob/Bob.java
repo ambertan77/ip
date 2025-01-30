@@ -1,8 +1,8 @@
 package bob;
 
-import bob.task.Task;
-
 import java.util.ArrayList;
+
+import bob.task.Task;
 
 /**
  * Represents the chatbot, Bob, that the user is interacting with.

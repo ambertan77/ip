@@ -74,10 +74,15 @@ public class Task {
      * @throws Exception If type is not equal to Type.DEADLINE, Type.EVENT or Type.TODO.
      */
     public String getType() throws Exception {
-        if (type == Type.DEADLINE) return "D";
-        else if (type == Type.EVENT) return "E";
-        else if (type == Type.TODO) return "T";
-        else throw new Exception("The type of task is not supported by Bob.");
+        if (type == Type.DEADLINE) {
+            return "D";
+        } else if (type == Type.EVENT) {
+            return "E";
+        } else if (type == Type.TODO) {
+            return "T";
+        } else {
+            throw new Exception("The type of task is not supported by Bob.");
+        }
     }
 
     /**
@@ -87,8 +92,11 @@ public class Task {
      * @return Integer representation of the status of task.
      */
     public int getStatus() {
-        if (isDone) return 1;
-        else return 0;
+        if (isDone) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
 

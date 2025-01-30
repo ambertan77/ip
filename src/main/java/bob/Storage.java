@@ -1,18 +1,17 @@
 package bob;
 
-import bob.task.Deadline;
-import bob.task.Event;
-import bob.task.Task;
-import bob.task.Todos;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+
+import bob.task.Deadline;
+import bob.task.Event;
+import bob.task.Task;
+import bob.task.Todos;
 
 /**
  * Represents the Storage component that stores all the tasks created

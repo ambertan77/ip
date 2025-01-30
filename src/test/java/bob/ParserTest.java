@@ -1,15 +1,15 @@
 package bob;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import bob.task.Deadline;
 import bob.task.Task;
-
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
 
 public class ParserTest {
 

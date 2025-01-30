@@ -1,14 +1,14 @@
 package bob;
 
-import bob.task.Deadline;
-import bob.task.Event;
-import bob.task.Task;
-import bob.task.Todos;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import bob.task.Deadline;
+import bob.task.Event;
+import bob.task.Task;
+import bob.task.Todos;
 
 /**
  * Represents the Parser that reads and executes the user's commands.
