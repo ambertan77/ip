@@ -23,7 +23,7 @@ public class Storage {
         this.tasks = tasks;
     }
 
-    public void loadFile(String filePath) throws java.io.IOException {
+    public void loadFile(String filePath) throws Exception {
         // create file to store the list of tasks
         // code adapted from:
         // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
@@ -108,7 +108,7 @@ public class Storage {
             } catch (ArrayIndexOutOfBoundsException e1) {
                 throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
             } catch (DateTimeParseException e2) {
-                throw new Exception("Ensure that the deadline is given in the correct format.");
+                throw new Exception("Ensure that the from and to fields are given in the correct format.");
             }
         } else if (storedInput.startsWith("T")) {
             try {
@@ -126,7 +126,7 @@ public class Storage {
     }
 
     // code adapted from course website, W3.4c
-    public void addFileContents() throws FileNotFoundException {
+    public void addFileContents() throws Exception {
         File f = new File("./data/tasks.txt");
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
