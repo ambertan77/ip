@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Represents a Task with a deadline. A <code>Task</code> object corresponds to
- *  * a Task represented by its description and its deadline e.g., <code>3,6</code>
+ * Represents a Task with a deadline. A <code>Deadline</code> object corresponds to
+ * a Task represented by its description and its deadline.
  */
 public class Deadline extends Task {
 
