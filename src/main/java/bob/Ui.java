@@ -4,12 +4,6 @@ import java.util.Scanner;
 
 public class Ui {
 
-    private Parser parser;
-
-    public Ui(Parser parser) {
-        this.parser = parser;
-    }
-
     public void interact(Parser parser) throws Exception {
         // strings to be printed in the different scenarios
         String indent = "  ";
@@ -32,15 +26,15 @@ public class Ui {
 
         while (!input.equals("bye")) {
             if (input.equals("list")) {
-                this.parser.execute(Parser.Command.LIST, input);
+                parser.execute(Parser.Command.LIST, input);
             } else if (input.startsWith("mark ")) {
-                this.parser.execute(Parser.Command.MARK, input);
+                parser.execute(Parser.Command.MARK, input);
             } else if (input.startsWith("unmark ")) {
-                this.parser.execute(Parser.Command.UNMARK, input);
+                parser.execute(Parser.Command.UNMARK, input);
             } else if (input.startsWith("delete ")) {
-                this.parser.execute(Parser.Command.DELETE, input);
+                parser.execute(Parser.Command.DELETE, input);
             } else {
-                this.parser.execute(Parser.Command.CREATE, input);
+                parser.execute(Parser.Command.CREATE, input);
             }
             input = scanner.nextLine();
         }

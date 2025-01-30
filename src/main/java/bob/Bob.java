@@ -16,7 +16,7 @@ public class Bob {
         this.tasks = new TaskList(new ArrayList<Task>(100));
         this.storage = new Storage(this.tasks);
         this.parser = new Parser(this.tasks, this.storage);
-        this.ui = new Ui(this.parser);
+        this.ui = new Ui();
     }
 
     public void run() throws Exception {
