@@ -9,11 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Parser {
     // all supported commands
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, CREATE
+        LIST, MARK, UNMARK, DELETE, CREATE, FIND
     }
 
     private TaskList tasks;
@@ -222,6 +223,22 @@ public class Parser {
             System.out.println(indent + " " + tasks.get(tasks.count).toString());
             tasks.count++; // increment total count of tasks
             System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
+            return;
+        case FIND:
+            System.out.println(line);
+            String key = input.substring(5);
+            ArrayList<Task> matches = tasks.find(key);
+            if (matches.isEmpty()) {
+                System.out.println("  No matches to your search key.");
+            } else {
+                // print tasks
+                System.out.println("  Here are the tasks that matches your search key:");
+                for (int j = 0; j < matches.size(); j++) {
+                    int index = j + 1;
+                    System.out.println("  " + index + ". " + tasks.get(j).toString());
+                }
+            }
+            System.out.println(line);
         }
     }
 }
