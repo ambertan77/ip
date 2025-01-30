@@ -10,8 +10,14 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents the Parser that reads and executes the user's commands.
+ */
 public class Parser {
     // all supported commands
+    /**
+     * Lists the different user commands supported.
+     */
     public enum Command {
         LIST, MARK, UNMARK, DELETE, CREATE
     }
@@ -19,11 +25,25 @@ public class Parser {
     private TaskList tasks;
     private Storage storage;
 
+    /**
+     * Creates a new instance of a Task.
+     *
+     * @param tasks List of tasks the user has input.
+     * @param storage Where tasks created in all instances of the bot are stored.
+     */
     public Parser(TaskList tasks, Storage storage) {
         this.tasks = tasks;
         this.storage = storage;
     }
 
+    /**
+     * Returns the new Todo task created.
+     * If no description is entered, an exception is thrown.
+     *
+     * @param input The line input by the user.
+     * @return New todo task with properties specified by the input.
+     * @throws Exception If user input has no description.
+     */
     public Todos createTodoTask(String input) throws Exception {
         String desc = input.substring(4);
         if (desc.equals("")) {
@@ -33,6 +53,14 @@ public class Parser {
         return new Todos(desc.substring(1));
     }
 
+    /**
+     * Returns the new Deadline task created.
+     * If no description, no deadline or the wrong format is entered, an exception is thrown.
+     *
+     * @param input The line input by the user.
+     * @return New deadline task with properties specified by the input.
+     * @throws Exception If user input is in the wrong format.
+     */
     public Deadline createDeadlineTask(String input) throws Exception {
         if (input.substring(8).equals("")) {
             // empty description
@@ -62,6 +90,14 @@ public class Parser {
         return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
     }
 
+    /**
+     * Returns the new Event task created. If no description,
+     * no start or end time, or the wrong format is entered, an exception is thrown.
+     *
+     * @param input The line input by the user.
+     * @return New event task with properties specified by the input.
+     * @throws Exception If user input is in the wrong format.
+     */
     public Event createEventTask(String input) throws Exception {
         if (input.substring(5).equals("")) {
             // empty description
@@ -104,6 +140,14 @@ public class Parser {
     }
 
     // method to support the creation of new tasks
+    /**
+     * Checks the type of task to be created and returns the new Task created.
+     * If the input is formatted wrongly, an exception is thrown.
+     *
+     * @param input The line input by the user.
+     * @return New task with properties and type specified by the input.
+     * @throws Exception If user input is in the wrong format.
+     */
     public Task createTask(String input) throws Exception {
         if (input.startsWith("todo")) {
             return createTodoTask(input);
@@ -116,6 +160,14 @@ public class Parser {
         throw new Exception("Please choose between creating a todo, deadline or event!");
     }
 
+    /**
+     * Checks the action that the user wants the bot to take and executes it.
+     * If the user's input is formatted wrongly, an exception is thrown.
+     *
+     * @param command The type of action that the user wants to take.
+     * @param input The line input by the user.
+     * @throws Exception If user input is in the wrong format.
+     */
     public void execute(Command command, String input) throws Exception {
         // strings to be printed in the different scenarios
         String indent = "  ";
