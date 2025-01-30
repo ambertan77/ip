@@ -2,8 +2,18 @@ package bob;
 
 import java.util.Scanner;
 
+/**
+ * Represents the component dealing with user interactions. If the chatbot is unable to
+ * continue responding to the user due to errors in file path or inputs, an exception is thrown.
+ */
 public class Ui {
 
+    /**
+     * Responds to the user's commands through printing messages.
+     *
+     * @param parser The parser reading and executing the user's commands.
+     * @throws Exception If the chatbot is unable to execute commands.
+     */
     public void interact(Parser parser) throws Exception {
         // strings to be printed in the different scenarios
         String indent = "  ";

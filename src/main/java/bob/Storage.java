@@ -14,15 +14,32 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * Represents the Storage component that stores all the tasks created
+ * in all instances of the bot.
+ */
 public class Storage {
 
     private TaskList tasks;
     protected boolean isNewFile = false;
 
+    /**
+     * Creates a new instance of Storage.
+     *
+     * @param tasks List of tasks the user has input.
+     */
     public Storage(TaskList tasks) {
         this.tasks = tasks;
     }
 
+    /**
+     * Creates a directory and a new file if they do not exist yet.
+     * Adds the file contents to the task list in this instance of the bot.
+     * If text in the file at the specified file path is not formatted accurately, an exception is thrown.
+     *
+     * @param filePath The file path of the file storing data.
+     * @throws Exception If text in the file is not formatted correctly.
+     */
     public void loadFile(String filePath) throws Exception {
         // create file to store the list of tasks
         // code adapted from:
@@ -43,6 +60,14 @@ public class Storage {
     // create a method to write over text
     // method adapted from course website, under W3.4
     // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
+    /**
+     * Stores the string representation of the task passed into the method by
+     * writing over the current items in the file.
+     *
+     * @param filePath The file path of the file storing data.
+     * @param task The task to be stored into the file.
+     * @throws IOException If the file cannot be read.
+     */
     public void writeToFile(String filePath, Task task) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         String text = "";
@@ -65,6 +90,14 @@ public class Storage {
     // create a method to append text to file instead of write over
     // method adapted from course website, under W3.4
     // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
+    /**
+     * Stores the string representation of the task passed into the method by
+     * appending to the current items in the file.
+     *
+     * @param filePath The file path of the file storing data.
+     * @param task The task to be stored into the file.
+     * @throws IOException If the file cannot be read.
+     */
     public void appendToFile(String filePath, Task task) throws IOException {
         FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
         String text = "";
@@ -84,6 +117,13 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Returns a newly created task with details as specified in the stored data.
+     *
+     * @param storedInput A line of text stored in the file of data.
+     * @return The newly created task.
+     * @throws Exception If the file cannot be read or if the data is formatted wrongly.
+     */
     public Task createTaskFromFile(String storedInput) throws Exception {
         Task output = null;
         String[] split = storedInput.split(" / ");
@@ -126,6 +166,11 @@ public class Storage {
     }
 
     // code adapted from course website, W3.4c
+    /**
+     * Adds the tasks stored in the data file into the current task list.
+     *
+     * @throws Exception If the file cannot be read or if the data is formatted wrongly.
+     */
     public void addFileContents() throws Exception {
         File f = new File("./data/tasks.txt");
         Scanner s = new Scanner(f);
