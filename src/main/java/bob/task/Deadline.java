@@ -14,6 +14,12 @@ public class Deadline extends Task {
 
     protected LocalDateTime deadline;
 
+    /**
+     * Creates a new instance of a Deadline task.
+     *
+     * @param description Description of the task.
+     * @param deadline Deadline of the task.
+     */
     public Deadline(String description, LocalDateTime deadline) {
         super(description, Task.Type.DEADLINE);
         this.deadline = deadline;

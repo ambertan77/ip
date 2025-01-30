@@ -15,6 +15,13 @@ public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
 
+    /**
+     * Creates a new instance of an Event task.
+     *
+     * @param description Description of the task.
+     * @param from Start time of the task.
+     * @param to End time of the task.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description, Task.Type.EVENT);
         this.from = from;
