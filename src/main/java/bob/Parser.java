@@ -49,12 +49,12 @@ public class Parser {
             String deadline = split[1].substring(3);
         } catch (ArrayIndexOutOfBoundsException e) {
             // user did not add deadline
-            throw new ArrayIndexOutOfBoundsException("Please add the deadline!");
+            throw new ArrayIndexOutOfBoundsException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         String deadline = split[1].substring(3);
         if (deadline.equals("")) {
             // user did not add a deadline
-            throw new Exception("Please add a deadline!");
+            throw new Exception("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
