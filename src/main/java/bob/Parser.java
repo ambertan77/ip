@@ -24,7 +24,7 @@ public class Parser {
         this.storage = storage;
     }
 
-    public Task createTodoTask(String input) throws Exception {
+    public Todos createTodoTask(String input) throws Exception {
         String desc = input.substring(4);
         if (desc.equals("")) {
             // empty description
@@ -33,7 +33,7 @@ public class Parser {
         return new Todos(desc.substring(1));
     }
 
-    public Task createDeadlineTask(String input) throws Exception {
+    public Deadline createDeadlineTask(String input) throws Exception {
         if (input.substring(8).equals("")) {
             // empty description
             throw new Exception("I can't create tasks with no descriptions :(");
@@ -62,7 +62,7 @@ public class Parser {
         return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
     }
 
-    public Task createEventTask(String input) throws Exception {
+    public Event createEventTask(String input) throws Exception {
         if (input.substring(5).equals("")) {
             // empty description
             throw new Exception("I can't create tasks with no descriptions :(");
