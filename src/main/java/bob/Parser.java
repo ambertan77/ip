@@ -24,81 +24,93 @@ public class Parser {
         this.storage = storage;
     }
 
+    public Task createTodoTask(String input) throws Exception {
+        String desc = input.substring(4);
+        if (desc.equals("")) {
+            // empty description
+            throw new Exception("I can't create tasks with no descriptions :(");
+        }
+        return new Todos(desc.substring(1));
+    }
+
+    public Task createDeadlineTask(String input) throws Exception {
+        if (input.substring(8).equals("")) {
+            // empty description
+            throw new Exception("I can't create tasks with no descriptions :(");
+        }
+        // split string input into 2 parts
+        String[] split = input.split(" /");
+        String desc = split[0].substring(9);
+        if (desc.equals("")) {
+            // empty description
+            throw new Exception("I can't create tasks with no descriptions :(");
+        }
+        try {
+            String deadline = split[1].substring(3);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // user did not add deadline
+            throw new ArrayIndexOutOfBoundsException("Please add the deadline!");
+        }
+        String deadline = split[1].substring(3);
+        if (deadline.equals("")) {
+            // user did not add a deadline
+            throw new Exception("Please add a deadline!");
+        }
+        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+        DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
+    }
+
+    public Task createEventTask(String input) throws Exception {
+        if (input.substring(5).equals("")) {
+            // empty description
+            throw new Exception("I can't create tasks with no descriptions :(");
+        }
+        // split string input into 3 parts
+        String[] split = input.split(" /");
+        try {
+            String desc = split[0].substring(6);
+        } catch (StringIndexOutOfBoundsException e1) {
+            // empty description
+            throw new StringIndexOutOfBoundsException("I can't create tasks with no descriptions :(");
+        }
+        String desc = split[0].substring(6);
+        if (desc.equals("")) {
+            // empty description
+            throw new Exception("I can't create tasks with no descriptions :(");
+        }
+        try {
+            String from = split[1].substring(5);
+            String to = split[2].substring(3);
+        } catch (StringIndexOutOfBoundsException e1) {
+            // empty "from" or "to fields
+            throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+        } catch (ArrayIndexOutOfBoundsException e2){
+            // empty "from" or "to fields
+            throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+        }
+        String from = split[1].substring(5);
+        String to = split[2].substring(3);
+        if (from.equals("") || to.equals("")) {
+            // empty "from" or "to fields
+            throw new Exception("Please add both the starting and ending date/time!");
+        }
+        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+        DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return new Event(desc, LocalDateTime.parse(from, inputDateTimeFormat),
+                LocalDateTime.parse(to, inputDateTimeFormat));
+    }
+
     // method to support the creation of new tasks
     public Task createTask(String input) throws Exception {
         if (input.startsWith("todo")) {
-            String desc = input.substring(4);
-            if (desc.equals("")) {
-                // empty description
-                throw new Exception("I can't create tasks with no descriptions :(");
-            }
-            return new Todos(desc.substring(1));
+            return createTodoTask(input);
         } else if (input.startsWith("deadline")) {
-            if (input.substring(8).equals("")) {
-                // empty description
-                throw new Exception("I can't create tasks with no descriptions :(");
-            }
-            // split string input into 2 parts
-            String[] split = input.split(" /");
-            String desc = split[0].substring(9);
-            if (desc.equals("")) {
-                // empty description
-                throw new Exception("I can't create tasks with no descriptions :(");
-            }
-            try {
-                String deadline = split[1].substring(3);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // user did not add deadline
-                throw new ArrayIndexOutOfBoundsException("Please add the deadline!");
-            }
-            String deadline = split[1].substring(3);
-            if (deadline.equals("")) {
-                // user did not add a deadline
-                throw new Exception("Please add a deadline!");
-            }
-            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
-            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-            return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
+            return createDeadlineTask(input);
         } else if (input.startsWith("event")) {
-            if (input.substring(5).equals("")) {
-                // empty description
-                throw new Exception("I can't create tasks with no descriptions :(");
-            }
-            // split string input into 3 parts
-            String[] split = input.split(" /");
-            try {
-                String desc = split[0].substring(6);
-            } catch (StringIndexOutOfBoundsException e1) {
-                // empty description
-                throw new StringIndexOutOfBoundsException("I can't create tasks with no descriptions :(");
-            }
-            String desc = split[0].substring(6);
-            if (desc.equals("")) {
-                // empty description
-                throw new Exception("I can't create tasks with no descriptions :(");
-            }
-            try {
-                String from = split[1].substring(5);
-                String to = split[2].substring(3);
-            } catch (StringIndexOutOfBoundsException e1) {
-                // empty "from" or "to fields
-                throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
-            } catch (ArrayIndexOutOfBoundsException e2){
-                // empty "from" or "to fields
-                throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
-            }
-            String from = split[1].substring(5);
-            String to = split[2].substring(3);
-            if (from.equals("") || to.equals("")) {
-                // empty "from" or "to fields
-                throw new Exception("Please add both the starting and ending date/time!");
-            }
-            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
-            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-            return new Event(
-                    desc, LocalDateTime.parse(from, inputDateTimeFormat), LocalDateTime.parse(to, inputDateTimeFormat));
+            return createEventTask(input);
         }
         // user inputs an unsupported command
         throw new Exception("Please choose between creating a todo, deadline or event!");
