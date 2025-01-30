@@ -1,8 +1,8 @@
 package bob;
 
-import bob.task.Task;
-
 import java.util.ArrayList;
+
+import bob.task.Task;
 
 public class TaskList {
     // store the current count of tasks in the list
