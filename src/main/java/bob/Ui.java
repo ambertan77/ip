@@ -43,6 +43,8 @@ public class Ui {
                 parser.execute(Parser.Command.UNMARK, input);
             } else if (input.startsWith("delete ")) {
                 parser.execute(Parser.Command.DELETE, input);
+            } else if (input.startsWith("find ")) {
+                parser.execute(Parser.Command.FIND, input);
             } else {
                 parser.execute(Parser.Command.CREATE, input);
             }

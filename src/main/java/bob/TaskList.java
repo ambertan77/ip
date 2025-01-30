@@ -50,4 +50,15 @@ public class TaskList {
     public void add(Task newTask) {
         tasks.add(newTask);
     }
+
+    public ArrayList<Task> find(String key) {
+        ArrayList<Task> result = new ArrayList<>();
+        for (int i = 0; i < this.tasks.size(); i++) {
+            Task current = tasks.get(i);
+            if (current.toString().contains(key)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
 }
