@@ -123,7 +123,7 @@ public class Parser {
         } catch (StringIndexOutOfBoundsException e1) {
             // empty "from" or "to fields
             throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
-        } catch (ArrayIndexOutOfBoundsException e2){
+        } catch (ArrayIndexOutOfBoundsException e2) {
             // empty "from" or "to fields
             throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
         }
@@ -291,6 +291,8 @@ public class Parser {
                 }
             }
             System.out.println(line);
+            return;
+        default:
         }
     }
 }

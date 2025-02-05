@@ -3,8 +3,6 @@ package bob.task;
 // solution below adapted from partial solution provided in course website
 // https://nus-cs2103-ay2425s2.github.io/website/schedule/week2/project.html under A-Inheritance
 
-import bob.task.Task;
-
 /**
  * Represents a Task with no start or end time. A <code>Todos</code> object corresponds to
  * a Task represented by only its description.
