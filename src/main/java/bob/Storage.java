@@ -19,8 +19,8 @@ import bob.task.Todos;
  */
 public class Storage {
 
-    private TaskList tasks;
     protected boolean isNewFile = false;
+    private TaskList tasks;
 
     /**
      * Creates a new instance of Storage.
