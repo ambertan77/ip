@@ -106,7 +106,7 @@ public class Storage {
                     + " / " + deadlineTask.getDeadline();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            text = System.lineSeparator() +  "E / " + event.getStatus() + " / " + event.getDescription()
+            text = System.lineSeparator() + "E / " + event.getStatus() + " / " + event.getDescription()
                     + " / " + event.getFrom() + " / " + event.getTo();
         } else if (task instanceof Todos) {
             Todos todo = (Todos) task;
