@@ -291,6 +291,8 @@ public class Parser {
                 }
             }
             System.out.println(line);
+            return;
+        default:
         }
     }
 }
