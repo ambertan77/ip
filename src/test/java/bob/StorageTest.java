@@ -72,7 +72,7 @@ public class StorageTest {
             Task actual = storage.createTaskFromFile("D / assignment 1 15/01/2025, 13:00");
             assertEquals("[D][ ] assignment 1 (by: 15/01/2025, 13:00)", actual.toString());
             fail();
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             assertEquals("Ensure that the tasks in file are in the correct format.", e.getMessage());
         }
     }
@@ -85,7 +85,7 @@ public class StorageTest {
             Task actual = storage.createTaskFromFile("D / 0 / assignment 1 / 15-01-2025 13:00");
             assertEquals("[D][ ] assignment 1 (by: 15/01/2025, 13:00)", actual.toString());
             fail();
-        } catch(Exception e) {
+        } catch (Exception e) {
             assertEquals("Ensure that the deadline is given in the correct format.", e.getMessage());
         }
     }
@@ -98,7 +98,7 @@ public class StorageTest {
             Task actual = storage.createTaskFromFile("E / consult, 19/01/2025, 16:30 to 19/01/2025, 17:30");
             assertEquals("[E][ ] consult (from 19/01/2025, 16:30 to 19/01/2025, 17:30)", actual.toString());
             fail();
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             assertEquals("Ensure that the tasks in file are in the correct format.", e.getMessage());
         }
     }
@@ -111,7 +111,7 @@ public class StorageTest {
             Task actual = storage.createTaskFromFile("E / 0 / consult / 19-01-2025 16:30 to 19-01-2025 17:30");
             assertEquals("[E][ ] consult (from 19/01/2025, 16:30 to 19/01/2025, 17:30)", actual.toString());
             fail();
-        } catch(Exception e) {
+        } catch (Exception e) {
             assertEquals("Ensure that the from and to fields are given in the correct format.", e.getMessage());
         }
     }
@@ -124,7 +124,7 @@ public class StorageTest {
             Task actual = storage.createTaskFromFile("Todo: exercise");
             assertEquals("[T][ ] exercise", actual.toString());
             fail();
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             assertEquals("Ensure that the tasks in file are in the correct format.", e.getMessage());
         }
     }
