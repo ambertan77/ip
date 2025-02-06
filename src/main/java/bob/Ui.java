@@ -6,6 +6,14 @@ package bob;
  */
 public class Ui {
 
+    /**
+     * Greets the user when the chatbot is first opened.
+     *
+     * @return A string containing the greeting message.
+     */
+    public String greet() {
+        return "Hello, I'm Bob! What can I do for you today? :)";
+    }
 
     /**
      * Returns the exit message when the user says "bye".
