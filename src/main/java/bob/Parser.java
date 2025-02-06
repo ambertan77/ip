@@ -43,13 +43,13 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New todo task with properties specified by the input.
-     * @throws Exception If user input has no description.
+     * @throws BobException If user input has no description.
      */
-    public Todos createTodoTask(String input) throws Exception {
+    public Todos createTodoTask(String input) throws BobException {
         String desc = input.substring(4);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         return new Todos(desc.substring(1));
     }
@@ -60,30 +60,30 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New deadline task with properties specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Deadline createDeadlineTask(String input) throws Exception {
+    public Deadline createDeadlineTask(String input) throws BobException {
         if (input.substring(8).equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         // split string input into 2 parts
         String[] split = input.split(" /");
         String desc = split[0].substring(9);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         try {
             String deadline = split[1].substring(3);
         } catch (ArrayIndexOutOfBoundsException e) {
             // user did not add deadline
-            throw new ArrayIndexOutOfBoundsException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         String deadline = split[1].substring(3);
         if (deadline.equals("")) {
             // user did not add a deadline
-            throw new Exception("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
@@ -97,12 +97,12 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New event task with properties specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Event createEventTask(String input) throws Exception {
+    public Event createEventTask(String input) throws BobException {
         if (input.substring(5).equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         // split string input into 3 parts
         String[] split = input.split(" /");
@@ -110,28 +110,28 @@ public class Parser {
             String desc = split[0].substring(6);
         } catch (StringIndexOutOfBoundsException e1) {
             // empty description
-            throw new StringIndexOutOfBoundsException("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         String desc = split[0].substring(6);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         try {
             String from = split[1].substring(5);
             String to = split[2].substring(3);
         } catch (StringIndexOutOfBoundsException e1) {
             // empty "from" or "to fields
-            throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         } catch (ArrayIndexOutOfBoundsException e2) {
             // empty "from" or "to fields
-            throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         }
         String from = split[1].substring(5);
         String to = split[2].substring(3);
         if (from.equals("") || to.equals("")) {
             // empty "from" or "to fields
-            throw new Exception("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         }
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
@@ -147,9 +147,9 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New task with properties and type specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Task createTask(String input) throws Exception {
+    public Task createTask(String input) throws BobException {
         if (input.startsWith("todo")) {
             return createTodoTask(input);
         } else if (input.startsWith("deadline")) {
@@ -158,7 +158,7 @@ public class Parser {
             return createEventTask(input);
         }
         // user inputs an unsupported command
-        throw new Exception("Please choose between creating a todo, deadline or event!");
+        throw new BobException("Please choose between creating a todo, deadline or event!");
     }
 
     /**
@@ -167,9 +167,9 @@ public class Parser {
      *
      * @param command The type of action that the user wants to take.
      * @param input The line input by the user.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public void execute(Command command, String input) throws Exception {
+    public void execute(Command command, String input) throws BobException {
         // strings to be printed in the different scenarios
         String indent = "  ";
         String line = "  ______________________________________________";
