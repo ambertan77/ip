@@ -12,9 +12,9 @@ public class Ui {
      * Responds to the user's commands through printing messages.
      *
      * @param parser The parser reading and executing the user's commands.
-     * @throws Exception If the chatbot is unable to execute commands.
+     * @throws BobException If the chatbot is unable to execute commands.
      */
-    public void interact(Parser parser) throws Exception {
+    public void interact(Parser parser) throws BobException {
         // strings to be printed in the different scenarios
         String indent = "  ";
         String line = "  ______________________________________________";
