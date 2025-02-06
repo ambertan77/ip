@@ -66,4 +66,8 @@ public class TaskList {
         }
         return result;
     }
+
+    public int getCount() {
+        return this.count;
+    }
 }
