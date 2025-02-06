@@ -1,58 +1,48 @@
 package bob;
 
-import java.util.Scanner;
-
 /**
  * Represents the component dealing with user interactions. If the chatbot is unable to
  * continue responding to the user due to errors in file path or inputs, an exception is thrown.
  */
 public class Ui {
 
+
+    /**
+     * Returns the exit message when the user says "bye".
+     *
+     * @return A string containing the exit message.
+     */
+    public String exit() {
+        return "Goodbye, hope to see you again soon!";
+    }
+
     /**
      * Responds to the user's commands through printing messages.
      *
      * @param parser The parser reading and executing the user's commands.
+     * @param input The text input by the user in the GUI.
+     * @return A String containing the response of the chatbot.
      * @throws BobException If the chatbot is unable to execute commands.
      */
-    public void interact(Parser parser) throws BobException {
-        // strings to be printed in the different scenarios
-        String indent = "  ";
-        String line = "  ______________________________________________";
-        String name = "Bob";
-        String greeting = "  Hello! I'm " + name + " :)" + "\n  Let's add to your list!\n" + line;
-        String mark = "  Nice! I've marked this task as done:\n";
-        String unmark = "  OK, I've marked this task as not done yet:\n";
-        String add = "  Got it. I've added this task:";
-        String delete = "  Alright, I've removed this task from your list:";
-        String exit = line + "\n" + "  Goodbye, hope to see you again soon!\n" + line;
+    public String interact(Parser parser, String input) throws BobException {
+        String output;
 
-        // start with greeting the user
-        System.out.println(line);
-        System.out.println(greeting);
-
-        // open the scanner to scan for user inputs
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-
-        while (!input.equals("bye")) {
-            if (input.equals("list")) {
-                parser.execute(Parser.Command.LIST, input);
-            } else if (input.startsWith("mark ")) {
-                parser.execute(Parser.Command.MARK, input);
-            } else if (input.startsWith("unmark ")) {
-                parser.execute(Parser.Command.UNMARK, input);
-            } else if (input.startsWith("delete ")) {
-                parser.execute(Parser.Command.DELETE, input);
-            } else if (input.startsWith("find ")) {
-                parser.execute(Parser.Command.FIND, input);
-            } else {
-                parser.execute(Parser.Command.CREATE, input);
-            }
-            input = scanner.nextLine();
+        if (input.equals("list")) {
+            output = parser.execute(Parser.Command.LIST, input);
+        } else if (input.startsWith("mark ")) {
+            output = parser.execute(Parser.Command.MARK, input);
+        } else if (input.startsWith("unmark ")) {
+            output = parser.execute(Parser.Command.UNMARK, input);
+        } else if (input.startsWith("delete ")) {
+            output = parser.execute(Parser.Command.DELETE, input);
+        } else if (input.startsWith("find ")) {
+            output = parser.execute(Parser.Command.FIND, input);
+        } else if (input.equals("bye")) {
+            output = this.exit();
+        } else {
+            output = parser.execute(Parser.Command.CREATE, input);
         }
 
-        // close the scanner and exit the program
-        scanner.close();
-        System.out.println(exit);
+        return output;
     }
 }

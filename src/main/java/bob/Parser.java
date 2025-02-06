@@ -167,36 +167,36 @@ public class Parser {
      *
      * @param command The type of action that the user wants to take.
      * @param input The line input by the user.
+     * @return The message detailing the command executed.
      * @throws BobException If user input is in the wrong format.
      */
-    public void execute(Command command, String input) throws BobException {
+    public String execute(Command command, String input) throws BobException {
         // strings to be printed in the different scenarios
         String indent = "  ";
         String line = "  ______________________________________________";
-        String mark = "  Nice! I've marked this task as done:\n";
-        String unmark = "  OK, I've marked this task as not done yet:\n";
-        String add = "  Got it. I've added this task:";
-        String delete = "  Alright, I've removed this task from your list:";
+        String mark = "Nice! I've marked this task as done:\n";
+        String unmark = "OK, I've marked this task as not done yet:\n";
+        String add = "Got it. I've added this task:";
+        String delete = "Alright, I've removed this task from your list:";
+        String list = "Here are the tasks currently in your list:\n";
 
         switch (command) {
         case LIST:
-            System.out.println(line);
             if (tasks.count == 0) {
                 // let users know that there is no task in list
-                System.out.println("  No tasks in list currently. Let's add one now!");
+                return "No tasks in list currently. Let's add one now!";
             } else {
-                // print tasks in the list
-                System.out.println("  Here are the tasks currently in your list:");
-                for (int j = 0; j < tasks.count; j++) {
+                // add tasks in the list
+                String allTasks = "";
+                for (int j = 0; j < tasks.count - 1; j++) {
                     int index = j + 1;
-                    System.out.println("  " + index + ". " + tasks.get(j).toString());
+                    allTasks = allTasks + index + ". " + tasks.get(j).toString() + "\n";
                 }
+                allTasks = allTasks + tasks.count + ". " + tasks.get(tasks.count - 1).toString();
+                return list + allTasks;
             }
-            System.out.println(line);
-            return;
         case MARK:
             // mark task as done
-            System.out.println(line);
             int indexToMark = Integer.valueOf(input.substring(5));
             indexToMark--;
             Task taskToMark = tasks.get(indexToMark);
@@ -209,14 +209,12 @@ public class Parser {
                     Task task = tasks.get(i);
                     storage.appendToFile(filePath, task);
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(mark + "   " + taskToMark.toString() + "\n" + line);
-            return;
+            return mark + taskToMark.toString();
         case UNMARK:
             // mark task as not done
-            System.out.println(line);
             int indexToUnmark = Integer.valueOf(input.substring(7));
             indexToUnmark--;
             Task taskToUnmark = tasks.get(indexToUnmark);
@@ -229,18 +227,17 @@ public class Parser {
                     Task task = tasks.get(i);
                     storage.appendToFile(filePath, task);
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(unmark + "   " + taskToUnmark.toString() + "\n" + line);
-            return;
+            return unmark + taskToUnmark.toString();
         case DELETE:
+            String outputForDelete = delete + "\n";
             // delete the task specified by the user
-            System.out.println(line + "\n" + delete);
             int indexToDelete = Integer.valueOf(input.substring(7));
             indexToDelete--;
             Task taskToDelete = tasks.get(indexToDelete);
-            System.out.println(indent + " " + taskToDelete.toString());
+            outputForDelete = outputForDelete + taskToDelete.toString() + "\n";
             tasks.remove(taskToDelete); // remove task from the list of tasks
             tasks.count--; // decrement total count of tasks
             try {
@@ -257,43 +254,45 @@ public class Parser {
                         storage.appendToFile(filePath, task);
                     }
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
-            return;
+            return outputForDelete + "Now you have " + tasks.count + " tasks in the list.";
         case CREATE:
+            String outputForCreate = add + "\n";
             // call helper method to create the task
             Task task = createTask(input);
             tasks.add(task);
             try {
                 String filePath = "./data/tasks.txt";
-                storage.appendToFile(filePath, task);
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+                this.storage.appendToFile(filePath, task);
+            } catch (BobException e) {
+                return "Unable to write to file: " + e.getMessage();
             }
-            System.out.println(line + "\n" + add);
-            System.out.println(indent + " " + tasks.get(tasks.count).toString());
+            outputForCreate = outputForCreate + tasks.get(tasks.count).toString();
             tasks.count++; // increment total count of tasks
-            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
-            return;
+            outputForCreate = outputForCreate + "Now you have " + tasks.count + " tasks in the list.";
+            return outputForCreate;
         case FIND:
-            System.out.println(line);
             String key = input.substring(5);
             ArrayList<Task> matches = tasks.find(key);
             if (matches.isEmpty()) {
-                System.out.println("  No matches to your search key.");
+                return "No matches to your search key.";
             } else {
                 // print tasks
-                System.out.println("  Here are the tasks that matches your search key:");
+                String outputForFind = "Here are the tasks that match your search key:\n";
                 for (int j = 0; j < matches.size(); j++) {
                     int index = j + 1;
-                    System.out.println("  " + index + ". " + tasks.get(j).toString());
+                    if (j == matches.size() - 1) {
+                        outputForFind = outputForFind + index + ". " + matches.get(j).toString();
+                    } else {
+                        outputForFind = outputForFind + index + ". " + matches.get(j).toString() + "\n";
+                    }
                 }
+                return outputForFind;
             }
-            System.out.println(line);
-            return;
         default:
+            throw new BobException("The command you have entered is currently not supported by Bob :(");
         }
     }
 }
