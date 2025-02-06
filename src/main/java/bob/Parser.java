@@ -182,14 +182,15 @@ public class Parser {
         case LIST:
             System.out.println(line);
             if (tasks.count == 0) {
-                // do not allow users to command "list" before adding to the list
-                throw new Exception("Please add tasks into the list first!");
-            }
-            // print tasks in the list
-            System.out.println("  Here are the tasks currently in your list:");
-            for (int j = 0; j < tasks.count; j++) {
-                int index = j + 1;
-                System.out.println("  " + index + ". " + tasks.get(j).toString());
+                // let users know that there is no task in list
+                System.out.println("  No tasks in list currently. Let's add one now!");
+            } else {
+                // print tasks in the list
+                System.out.println("  Here are the tasks currently in your list:");
+                for (int j = 0; j < tasks.count; j++) {
+                    int index = j + 1;
+                    System.out.println("  " + index + ". " + tasks.get(j).toString());
+                }
             }
             System.out.println(line);
             return;
