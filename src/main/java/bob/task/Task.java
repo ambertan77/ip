@@ -3,6 +3,8 @@ package bob.task;
 // solution below adapted from partial solution provided in course website
 // https://nus-cs2103-ay2425s2.github.io/website/schedule/week2/project.html under A-Classes
 
+import bob.BobException;
+
 /**
  * Represents a Task that must be of type Deadline, Event or Todo. A <code>Task</code> object
  * corresponds to a Task characterised by its type, description and whether it has been done.
@@ -71,9 +73,9 @@ public class Task {
      * If the type is neither of the supported types, an exception is thrown.
      *
      * @return Letter representation of the type of task.
-     * @throws Exception If type is not equal to Type.DEADLINE, Type.EVENT or Type.TODO.
+     * @throws BobException If type is not equal to Type.DEADLINE, Type.EVENT or Type.TODO.
      */
-    public String getType() throws Exception {
+    public String getType() throws BobException {
         if (type == Type.DEADLINE) {
             return "D";
         } else if (type == Type.EVENT) {
@@ -81,7 +83,7 @@ public class Task {
         } else if (type == Type.TODO) {
             return "T";
         } else {
-            throw new Exception("The type of task is not supported by Bob.");
+            throw new BobException("The type of task is not supported by Bob.");
         }
     }
 

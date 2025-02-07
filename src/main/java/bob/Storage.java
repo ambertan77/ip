@@ -37,9 +37,9 @@ public class Storage {
      * If text in the file at the specified file path is not formatted accurately, an exception is thrown.
      *
      * @param filePath The file path of the file storing data.
-     * @throws Exception If text in the file is not formatted correctly.
+     * @throws BobException If text in the file is not formatted correctly.
      */
-    public void loadFile(String filePath) throws Exception {
+    public void loadFile(String filePath) throws BobException {
         // create file to store the list of tasks
         // code adapted from:
         // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
@@ -49,10 +49,18 @@ public class Storage {
             directory.mkdir();
         }
         if (!data.exists()) {
-            data.createNewFile();
+            try {
+                data.createNewFile();
+            } catch (Exception e) {
+                throw new BobException("Unable to create new file: data.txt");
+            }
             isNewFile = true;
         } else {
-            addFileContents();
+            try {
+                addFileContents();
+            } catch (Exception e) {
+                throw new BobException("Unable to add file contents into storage.");
+            }
         }
     }
 
@@ -65,25 +73,29 @@ public class Storage {
      *
      * @param filePath The file path of the file storing data.
      * @param task The task to be stored into the file.
-     * @throws IOException If the file cannot be read.
+     * @throws BobException If the file cannot be read.
      */
-    public void writeToFile(String filePath, Task task) throws IOException {
-        FileWriter fw = new FileWriter(filePath);
-        String text = "";
-        if (task instanceof Deadline) {
-            Deadline deadlineTask = (Deadline) task;
-            text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
-                    + " / " + deadlineTask.getDeadline();
-        } else if (task instanceof Event) {
-            Event event = (Event) task;
-            text = "E / " + event.getStatus() + " / " + event.getDescription()
-                    + " / " + event.getFrom() + " / " + event.getTo();
-        } else if (task instanceof Todos) {
-            Todos todo = (Todos) task;
-            text = " T / " + todo.getStatus() + " / " + todo.getDescription();
+    public void writeToFile(String filePath, Task task) throws BobException {
+        try {
+            FileWriter fw = new FileWriter(filePath);
+            String text = "";
+            if (task instanceof Deadline) {
+                Deadline deadlineTask = (Deadline) task;
+                text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
+                        + " / " + deadlineTask.getDeadline();
+            } else if (task instanceof Event) {
+                Event event = (Event) task;
+                text = "E / " + event.getStatus() + " / " + event.getDescription()
+                        + " / " + event.getFrom() + " / " + event.getTo();
+            } else if (task instanceof Todos) {
+                Todos todo = (Todos) task;
+                text = " T / " + todo.getStatus() + " / " + todo.getDescription();
+            }
+            fw.write(text);
+            fw.close();
+        } catch (IOException e) {
+            throw new BobException("Unable to write to file: " + e.getMessage());
         }
-        fw.write(text);
-        fw.close();
     }
 
     // create a method to append text to file instead of write over
@@ -95,25 +107,29 @@ public class Storage {
      *
      * @param filePath The file path of the file storing data.
      * @param task The task to be stored into the file.
-     * @throws IOException If the file cannot be read.
+     * @throws BobException If the file cannot be read.
      */
-    public void appendToFile(String filePath, Task task) throws IOException {
-        FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
-        String text = "";
-        if (task instanceof Deadline) {
-            Deadline deadlineTask = (Deadline) task;
-            text = System.lineSeparator() + "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
-                    + " / " + deadlineTask.getDeadline();
-        } else if (task instanceof Event) {
-            Event event = (Event) task;
-            text = System.lineSeparator() + "E / " + event.getStatus() + " / " + event.getDescription()
-                    + " / " + event.getFrom() + " / " + event.getTo();
-        } else if (task instanceof Todos) {
-            Todos todo = (Todos) task;
-            text = System.lineSeparator() + "T / " + todo.getStatus() + " / " + todo.getDescription();
+    public void appendToFile(String filePath, Task task) throws BobException {
+        try {
+            FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
+            String text = "";
+            if (task instanceof Deadline) {
+                Deadline deadlineTask = (Deadline) task;
+                text = System.lineSeparator() + "D / " + deadlineTask.getStatus() + " / "
+                        + deadlineTask.getDescription() + " / " + deadlineTask.getDeadline();
+            } else if (task instanceof Event) {
+                Event event = (Event) task;
+                text = System.lineSeparator() + "E / " + event.getStatus() + " / " + event.getDescription()
+                        + " / " + event.getFrom() + " / " + event.getTo();
+            } else if (task instanceof Todos) {
+                Todos todo = (Todos) task;
+                text = System.lineSeparator() + "T / " + todo.getStatus() + " / " + todo.getDescription();
+            }
+            fw.write(text);
+            fw.close();
+        } catch (IOException e) {
+            throw new BobException("Unable to append to file: " + e.getMessage());
         }
-        fw.write(text);
-        fw.close();
     }
 
     /**
@@ -121,9 +137,9 @@ public class Storage {
      *
      * @param storedInput A line of text stored in the file of data.
      * @return The newly created task.
-     * @throws Exception If the file cannot be read or if the data is formatted wrongly.
+     * @throws BobException If the file cannot be read or if the data is formatted wrongly.
      */
-    public Task createTaskFromFile(String storedInput) throws Exception {
+    public Task createTaskFromFile(String storedInput) throws BobException {
         Task output = null;
         String[] split = storedInput.split(" / ");
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
@@ -136,7 +152,7 @@ public class Storage {
             } catch (ArrayIndexOutOfBoundsException e1) {
                 throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
             } catch (DateTimeParseException e2) {
-                throw new Exception("Ensure that the deadline is given in the correct format.");
+                throw new BobException("Ensure that the deadline is given in the correct format.");
             }
         } else if (storedInput.startsWith("E")) {
             try {
@@ -147,7 +163,7 @@ public class Storage {
             } catch (ArrayIndexOutOfBoundsException e1) {
                 throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
             } catch (DateTimeParseException e2) {
-                throw new Exception("Ensure that the from and to fields are given in the correct format.");
+                throw new BobException("Ensure that the from and to fields are given in the correct format.");
             }
         } else if (storedInput.startsWith("T")) {
             try {
@@ -156,7 +172,8 @@ public class Storage {
                 throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
             }
         } else {
-            throw new Exception("Ensure that the tasks in file are either a Deadline task, Event task or Todo task.");
+            throw new BobException("Ensure that the tasks in file are " +
+                    "either a Deadline task, Event task or Todo task.");
         }
         if (storedInput.charAt(4) == '1') {
             output.markAsDone();
@@ -168,16 +185,20 @@ public class Storage {
     /**
      * Adds the tasks stored in the data file into the current task list.
      *
-     * @throws Exception If the file cannot be read or if the data is formatted wrongly.
+     * @throws BobException If the file cannot be read or if the data is formatted wrongly.
      */
-    public void addFileContents() throws Exception {
-        File f = new File("./data/tasks.txt");
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            String storedInput = s.nextLine();
-            Task storedTask = createTaskFromFile(storedInput);
-            tasks.add(storedTask);
-            tasks.count++;
+    public void addFileContents() throws BobException {
+        try {
+            File f = new File("./data/tasks.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                String storedInput = s.nextLine();
+                Task storedTask = createTaskFromFile(storedInput);
+                tasks.add(storedTask);
+                tasks.count++;
+            }
+        } catch (Exception e) {
+            throw new BobException("Unable to add file contents: " + e.getMessage());
         }
     }
 }

@@ -43,13 +43,13 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New todo task with properties specified by the input.
-     * @throws Exception If user input has no description.
+     * @throws BobException If user input has no description.
      */
-    public Todos createTodoTask(String input) throws Exception {
+    public Todos createTodoTask(String input) throws BobException {
         String desc = input.substring(4);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         return new Todos(desc.substring(1));
     }
@@ -60,30 +60,30 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New deadline task with properties specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Deadline createDeadlineTask(String input) throws Exception {
+    public Deadline createDeadlineTask(String input) throws BobException {
         if (input.substring(8).equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         // split string input into 2 parts
         String[] split = input.split(" /");
         String desc = split[0].substring(9);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         try {
             String deadline = split[1].substring(3);
         } catch (ArrayIndexOutOfBoundsException e) {
             // user did not add deadline
-            throw new ArrayIndexOutOfBoundsException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         String deadline = split[1].substring(3);
         if (deadline.equals("")) {
             // user did not add a deadline
-            throw new Exception("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
         }
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
@@ -97,12 +97,12 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New event task with properties specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Event createEventTask(String input) throws Exception {
+    public Event createEventTask(String input) throws BobException {
         if (input.substring(5).equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         // split string input into 3 parts
         String[] split = input.split(" /");
@@ -110,28 +110,28 @@ public class Parser {
             String desc = split[0].substring(6);
         } catch (StringIndexOutOfBoundsException e1) {
             // empty description
-            throw new StringIndexOutOfBoundsException("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         String desc = split[0].substring(6);
         if (desc.equals("")) {
             // empty description
-            throw new Exception("I can't create tasks with no descriptions :(");
+            throw new BobException("I can't create tasks with no descriptions :(");
         }
         try {
             String from = split[1].substring(5);
             String to = split[2].substring(3);
         } catch (StringIndexOutOfBoundsException e1) {
             // empty "from" or "to fields
-            throw new StringIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         } catch (ArrayIndexOutOfBoundsException e2) {
             // empty "from" or "to fields
-            throw new ArrayIndexOutOfBoundsException("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         }
         String from = split[1].substring(5);
         String to = split[2].substring(3);
         if (from.equals("") || to.equals("")) {
             // empty "from" or "to fields
-            throw new Exception("Please add both the starting and ending date/time!");
+            throw new BobException("Please add both the starting and ending date/time!");
         }
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
         // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
@@ -147,9 +147,9 @@ public class Parser {
      *
      * @param input The line input by the user.
      * @return New task with properties and type specified by the input.
-     * @throws Exception If user input is in the wrong format.
+     * @throws BobException If user input is in the wrong format.
      */
-    public Task createTask(String input) throws Exception {
+    public Task createTask(String input) throws BobException {
         if (input.startsWith("todo")) {
             return createTodoTask(input);
         } else if (input.startsWith("deadline")) {
@@ -158,7 +158,7 @@ public class Parser {
             return createEventTask(input);
         }
         // user inputs an unsupported command
-        throw new Exception("Please choose between creating a todo, deadline or event!");
+        throw new BobException("Please choose between creating a todo, deadline or event!");
     }
 
     /**
@@ -167,35 +167,36 @@ public class Parser {
      *
      * @param command The type of action that the user wants to take.
      * @param input The line input by the user.
-     * @throws Exception If user input is in the wrong format.
+     * @return The message detailing the command executed.
+     * @throws BobException If user input is in the wrong format.
      */
-    public void execute(Command command, String input) throws Exception {
+    public String execute(Command command, String input) throws BobException {
         // strings to be printed in the different scenarios
         String indent = "  ";
         String line = "  ______________________________________________";
-        String mark = "  Nice! I've marked this task as done:\n";
-        String unmark = "  OK, I've marked this task as not done yet:\n";
-        String add = "  Got it. I've added this task:";
-        String delete = "  Alright, I've removed this task from your list:";
+        String mark = "Nice! I've marked this task as done:\n";
+        String unmark = "OK, I've marked this task as not done yet:\n";
+        String add = "Got it. I've added this task:";
+        String delete = "Alright, I've removed this task from your list:";
+        String list = "Here are the tasks currently in your list:\n";
 
         switch (command) {
         case LIST:
-            System.out.println(line);
             if (tasks.count == 0) {
-                // do not allow users to command "list" before adding to the list
-                throw new Exception("Please add tasks into the list first!");
+                // let users know that there is no task in list
+                return "No tasks in list currently. Let's add one now!";
+            } else {
+                // add tasks in the list
+                String allTasks = "";
+                for (int j = 0; j < tasks.count - 1; j++) {
+                    int index = j + 1;
+                    allTasks = allTasks + index + ". " + tasks.get(j).toString() + "\n";
+                }
+                allTasks = allTasks + tasks.count + ". " + tasks.get(tasks.count - 1).toString();
+                return list + allTasks;
             }
-            // print tasks in the list
-            System.out.println("  Here are the tasks currently in your list:");
-            for (int j = 0; j < tasks.count; j++) {
-                int index = j + 1;
-                System.out.println("  " + index + ". " + tasks.get(j).toString());
-            }
-            System.out.println(line);
-            return;
         case MARK:
             // mark task as done
-            System.out.println(line);
             int indexToMark = Integer.valueOf(input.substring(5));
             indexToMark--;
             Task taskToMark = tasks.get(indexToMark);
@@ -208,14 +209,12 @@ public class Parser {
                     Task task = tasks.get(i);
                     storage.appendToFile(filePath, task);
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(mark + "   " + taskToMark.toString() + "\n" + line);
-            return;
+            return mark + taskToMark.toString();
         case UNMARK:
             // mark task as not done
-            System.out.println(line);
             int indexToUnmark = Integer.valueOf(input.substring(7));
             indexToUnmark--;
             Task taskToUnmark = tasks.get(indexToUnmark);
@@ -228,18 +227,17 @@ public class Parser {
                     Task task = tasks.get(i);
                     storage.appendToFile(filePath, task);
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(unmark + "   " + taskToUnmark.toString() + "\n" + line);
-            return;
+            return unmark + taskToUnmark.toString();
         case DELETE:
+            String outputForDelete = delete + "\n";
             // delete the task specified by the user
-            System.out.println(line + "\n" + delete);
             int indexToDelete = Integer.valueOf(input.substring(7));
             indexToDelete--;
             Task taskToDelete = tasks.get(indexToDelete);
-            System.out.println(indent + " " + taskToDelete.toString());
+            outputForDelete = outputForDelete + taskToDelete.toString() + "\n";
             tasks.remove(taskToDelete); // remove task from the list of tasks
             tasks.count--; // decrement total count of tasks
             try {
@@ -256,43 +254,45 @@ public class Parser {
                         storage.appendToFile(filePath, task);
                     }
                 }
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+            } catch (BobException e) {
+                return "Unable to write to file.";
             }
-            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
-            return;
+            return outputForDelete + "Now you have " + tasks.count + " tasks in the list.";
         case CREATE:
+            String outputForCreate = add + "\n";
             // call helper method to create the task
             Task task = createTask(input);
             tasks.add(task);
             try {
                 String filePath = "./data/tasks.txt";
-                storage.appendToFile(filePath, task);
-            } catch (IOException e) {
-                System.out.println("Unable to write to file: " + e.getMessage());
+                this.storage.appendToFile(filePath, task);
+            } catch (BobException e) {
+                return "Unable to write to file: " + e.getMessage();
             }
-            System.out.println(line + "\n" + add);
-            System.out.println(indent + " " + tasks.get(tasks.count).toString());
+            outputForCreate = outputForCreate + tasks.get(tasks.count).toString();
             tasks.count++; // increment total count of tasks
-            System.out.println(indent + "Now you have " + tasks.count + " tasks in the list.\n" + line);
-            return;
+            outputForCreate = outputForCreate + "\nNow you have " + tasks.count + " tasks in the list.";
+            return outputForCreate;
         case FIND:
-            System.out.println(line);
             String key = input.substring(5);
             ArrayList<Task> matches = tasks.find(key);
             if (matches.isEmpty()) {
-                System.out.println("  No matches to your search key.");
+                return "No matches to your search key.";
             } else {
                 // print tasks
-                System.out.println("  Here are the tasks that matches your search key:");
+                String outputForFind = "Here are the tasks that match your search key:\n";
                 for (int j = 0; j < matches.size(); j++) {
                     int index = j + 1;
-                    System.out.println("  " + index + ". " + tasks.get(j).toString());
+                    if (j == matches.size() - 1) {
+                        outputForFind = outputForFind + index + ". " + matches.get(j).toString();
+                    } else {
+                        outputForFind = outputForFind + index + ". " + matches.get(j).toString() + "\n";
+                    }
                 }
+                return outputForFind;
             }
-            System.out.println(line);
-            return;
         default:
+            throw new BobException("The command you have entered is currently not supported by Bob :(");
         }
     }
 }

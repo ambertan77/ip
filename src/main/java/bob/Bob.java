@@ -15,9 +15,10 @@ public class Bob {
     private Ui ui;
 
     /**
-     * Creates a new instance of Bob.
+     * Creates a new instance of Bob. Loads the file containing data in the hard disk.
      *
      * @param filePath File path of the file in hard disk containing previous data.
+     * @throws BobException If there is an error loading the file in the hard disk.
      */
     public Bob(String filePath) {
         this.filePath = filePath;
@@ -31,15 +32,15 @@ public class Bob {
      * Loads the file in the specified file path.
      * This method kick-starts all interactions between the chatbot and the user.
      *
-     * @throws Exception If the user inputs commands in the wrong format.
+     * @throws BobException If the file containing data in the hard disk cannot be loaded.
      */
-    public void run() throws Exception {
+    public String run() throws BobException {
         try {
-            storage.loadFile(filePath);
-        } catch (java.io.IOException e) {
-            System.out.println(e.getMessage());
+            this.storage.loadFile(filePath);
+        } catch (Exception e) {
+            throw new BobException(e.getMessage());
         }
-        this.ui.interact(this.parser);
+        return this.ui.greet();
     }
 
     // JavaDoc comments adapted from:
@@ -49,9 +50,19 @@ public class Bob {
      * interactions between the user and the chatbot.
      *
      * @param args The command line arguments.
-     * @throws Exception If any error occurs during user interaction.
+     * @throws BobException If any error occurs during user interaction.
      **/
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws BobException {
         new Bob("./data/tasks.txt").run();
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @return Bob's response to the user's command.
+     * @throws BobException If an error has occurred during execution of user's command.
+     */
+    public String getResponse(String input) throws BobException {
+        return this.ui.interact(this.parser, input);
     }
 }
