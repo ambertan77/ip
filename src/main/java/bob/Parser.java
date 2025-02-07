@@ -271,7 +271,7 @@ public class Parser {
             }
             outputForCreate = outputForCreate + tasks.get(tasks.count).toString();
             tasks.count++; // increment total count of tasks
-            outputForCreate = outputForCreate + "Now you have " + tasks.count + " tasks in the list.";
+            outputForCreate = outputForCreate + "\nNow you have " + tasks.count + " tasks in the list.";
             return outputForCreate;
         case FIND:
             String key = input.substring(5);
