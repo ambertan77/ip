@@ -46,6 +46,7 @@ public class Parser {
      * @throws BobException If user input has no description.
      */
     public Todos createTodoTask(String input) throws BobException {
+        assert input.startsWith("todo") : "input should specify a todo task to be created";
         String desc = input.substring(4);
         if (desc.equals("")) {
             // empty description
@@ -63,6 +64,7 @@ public class Parser {
      * @throws BobException If user input is in the wrong format.
      */
     public Deadline createDeadlineTask(String input) throws BobException {
+        assert input.startsWith("deadline") : "input should specify a todo task to be created";
         if (input.substring(8).equals("")) {
             // empty description
             throw new BobException("I can't create tasks with no descriptions :(");
@@ -100,6 +102,7 @@ public class Parser {
      * @throws BobException If user input is in the wrong format.
      */
     public Event createEventTask(String input) throws BobException {
+        assert input.startsWith("event") : "input should specify a todo task to be created";
         if (input.substring(5).equals("")) {
             // empty description
             throw new BobException("I can't create tasks with no descriptions :(");
