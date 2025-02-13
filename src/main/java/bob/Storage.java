@@ -43,11 +43,13 @@ public class Storage {
         // create file to store the list of tasks
         // code adapted from:
         // https://stackoverflow.com/questions/64401340/java-create-directory-and-subdirectory-if-not-exist
-        File data = new File("./data/tasks.txt");
+        File data = new File(filePath);
         File directory = data.getParentFile();
+
         if (!directory.exists()) {
             directory.mkdir();
         }
+
         if (!data.exists()) {
             try {
                 data.createNewFile();
@@ -133,6 +135,64 @@ public class Storage {
     }
 
     /**
+     * Returns a newly created Deadline task with details as specified in the stored data.
+     *
+     * @param splitInput An array of strings created from the user's input.
+     * @return The newly created task of type deadline.
+     * @throws BobException If the file cannot be read or if the data is formatted wrongly.
+     */
+    public Deadline createDeadlineTaskFromFile(String[] splitInput) throws BobException {
+        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+            LocalDateTime deadline = LocalDateTime.parse(splitInput[3], formatter);
+            return new Deadline(splitInput[2], deadline);
+        } catch (ArrayIndexOutOfBoundsException e1) {
+            throw new BobException("Ensure that the tasks in file are in the correct format.");
+        } catch (DateTimeParseException e2) {
+            throw new BobException("Ensure that the deadline is given in the correct format.");
+        }
+    }
+
+    /**
+     * Returns a newly created Event task with details as specified in the stored data.
+     *
+     * @param splitInput An array of strings created from the user's input.
+     * @return The newly created task of type event.
+     * @throws BobException If the file cannot be read or if the data is formatted wrongly.
+     */
+    public Event createEventTaskFromFile(String[] splitInput) throws BobException {
+        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
+            LocalDateTime from = LocalDateTime.parse(splitInput[3], formatter);
+            LocalDateTime to = LocalDateTime.parse(splitInput[4], formatter);
+            return new Event(splitInput[2], from, to);
+        } catch (ArrayIndexOutOfBoundsException e1) {
+            throw new BobException("Ensure that the tasks in file are in the correct format.");
+        } catch (DateTimeParseException e2) {
+            throw new BobException("Ensure that the from and to fields are given in the correct format.");
+        }
+    }
+
+    /**
+     * Returns a newly created Todo task with details as specified in the stored data.
+     *
+     * @param splitInput An array of strings created from the user's input.
+     * @return The newly created task of type todo.
+     * @throws BobException If the file cannot be read or if the data is formatted wrongly.
+     */
+    public Todos createTodoTaskFromFile(String[] splitInput) throws BobException {
+        try {
+            return new Todos(splitInput[2]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new BobException("Ensure that the tasks in file are in the correct format.");
+        }
+    }
+
+    /**
      * Returns a newly created task with details as specified in the stored data.
      *
      * @param storedInput A line of text stored in the file of data.
@@ -142,39 +202,18 @@ public class Storage {
     public Task createTaskFromFile(String storedInput) throws BobException {
         Task output = null;
         String[] split = storedInput.split(" / ");
-        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
-        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+
         if (storedInput.startsWith("D")) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
-                LocalDateTime deadline = LocalDateTime.parse(split[3], formatter);
-                output = new Deadline(split[2], deadline);
-            } catch (ArrayIndexOutOfBoundsException e1) {
-                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
-            } catch (DateTimeParseException e2) {
-                throw new BobException("Ensure that the deadline is given in the correct format.");
-            }
+            output = createDeadlineTaskFromFile(split);
         } else if (storedInput.startsWith("E")) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
-                LocalDateTime from = LocalDateTime.parse(split[3], formatter);
-                LocalDateTime to = LocalDateTime.parse(split[4], formatter);
-                output = new Event(split[2], from, to);
-            } catch (ArrayIndexOutOfBoundsException e1) {
-                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
-            } catch (DateTimeParseException e2) {
-                throw new BobException("Ensure that the from and to fields are given in the correct format.");
-            }
+            output = createEventTaskFromFile(split);
         } else if (storedInput.startsWith("T")) {
-            try {
-                output = new Todos(split[2]);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new ArrayIndexOutOfBoundsException("Ensure that the tasks in file are in the correct format.");
-            }
+            output = createTodoTaskFromFile(split);
         } else {
             throw new BobException("Ensure that the tasks in file are " +
                     "either a Deadline task, Event task or Todo task.");
         }
+
         if (storedInput.charAt(4) == '1') {
             output.markAsDone();
         }
