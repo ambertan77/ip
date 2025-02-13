@@ -24,7 +24,7 @@ public class Bob {
         this.filePath = filePath;
         this.tasks = new TaskList(new ArrayList<Task>(100));
         this.storage = new Storage(this.tasks);
-        this.parser = new Parser(this.tasks, this.storage);
+        this.parser = new Parser(this.tasks, this.storage, this);
         this.ui = new Ui();
     }
 
