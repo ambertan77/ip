@@ -76,6 +76,7 @@ public class Storage {
      * @throws BobException If the file cannot be read.
      */
     public void writeToFile(String filePath, Task task) throws BobException {
+        assert (new File(filePath)).exists() : "file in hard disk should be loaded";
         try {
             FileWriter fw = new FileWriter(filePath);
             String text = "";
@@ -110,6 +111,7 @@ public class Storage {
      * @throws BobException If the file cannot be read.
      */
     public void appendToFile(String filePath, Task task) throws BobException {
+        assert (new File(filePath)).exists() : "file in hard disk should be loaded";
         try {
             FileWriter fw = new FileWriter(filePath, true); // create a FileWriter in append mode
             String text = "";
@@ -140,6 +142,7 @@ public class Storage {
      * @throws BobException If the file cannot be read or if the data is formatted wrongly.
      */
     public Task createTaskFromFile(String storedInput) throws BobException {
+        assert storedInput != null : "storedInput in file should not be null";
         Task output = null;
         String[] split = storedInput.split(" / ");
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
@@ -188,6 +191,7 @@ public class Storage {
      * @throws BobException If the file cannot be read or if the data is formatted wrongly.
      */
     public void addFileContents() throws BobException {
+        assert (new File("./data/tasks.txt")).exists() : "file in hard disk should be loaded";
         try {
             File f = new File("./data/tasks.txt");
             Scanner s = new Scanner(f);

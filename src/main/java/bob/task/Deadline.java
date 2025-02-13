@@ -62,6 +62,7 @@ public class Deadline extends Task {
      * @return Deadline of task.
      */
     public String getDeadline() {
+        assert this.deadline != null : "the deadline of this task must be indicated";
         DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.deadline.format(outputStringFormat);
     }

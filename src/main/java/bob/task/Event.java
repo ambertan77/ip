@@ -65,6 +65,7 @@ public class Event extends Task {
      * @return Start time of event.
      */
     public String getFrom() {
+        assert this.from != null : "the starting time of this event must be indicated";
         DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.from.format(outputStringFormat);
     }
@@ -77,6 +78,7 @@ public class Event extends Task {
      * @return End time of event.
      */
     public String getTo() {
+        assert this.to != null : "the ending time of this event must be indicated";
         DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.to.format(outputStringFormat);
     }
