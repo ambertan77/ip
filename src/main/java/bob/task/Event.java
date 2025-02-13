@@ -67,6 +67,7 @@ public class Event extends Task {
      * @return Start time of event.
      */
     public String getFrom() {
+        assert this.from != null : "the starting time of this event must be indicated";
         return this.from.format(outputStringFormat);
     }
 
@@ -78,6 +79,7 @@ public class Event extends Task {
      * @return End time of event.
      */
     public String getTo() {
+        assert this.to != null : "the ending time of this event must be indicated";
         return this.to.format(outputStringFormat);
     }
 }

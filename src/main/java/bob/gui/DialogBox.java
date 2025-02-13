@@ -64,6 +64,8 @@ public class DialogBox extends HBox {
      * @return A new instance of DialogBox containing the text and image.
      */
     public static DialogBox getUserDialog(String text, Image img) {
+        assert text != null : "user input should not be null";
+        assert img != null : "user image should not be null";
         return new DialogBox(text, img);
     }
 
@@ -75,6 +77,8 @@ public class DialogBox extends HBox {
      * @return A new instance of DialogBox containing the text and image.
      */
     public static DialogBox getBobDialog(String text, Image img) {
+        assert text != null : "Bob's response should not be null";
+        assert img != null : "Bob's image should not be null";
         var db = new DialogBox(text, img);
         db.flip();
         return db;

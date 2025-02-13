@@ -49,6 +49,9 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() throws BobException {
+        assert this.bob != null : "Bob should be initialised before it can respond to the user";
+        assert userImage != null : "image of the user cannot be null";
+        assert bobImage != null : "image of the Bob cannot be null";
         String input = userInput.getText();
         String response = bob.getResponse(input);
         dialogContainer.getChildren().addAll(
@@ -66,7 +69,10 @@ public class MainWindow extends AnchorPane {
       */
     @FXML
     public void greet(Bob b) throws BobException {
+        assert this.bob != null : "Bob should be initialised before it can greet the user";
         String greeting = b.run();
+        assert greeting != null : "Bob's greeting cannot be null";
+        assert bobImage != null : "image of the Bob cannot be null";
         dialogContainer.getChildren().addAll(
                 DialogBox.getBobDialog(greeting, bobImage)
         );

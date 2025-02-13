@@ -30,6 +30,7 @@ public class TaskList {
      * @return The task at the specified index.
      */
     public Task get(int index) {
+        assert index < tasks.size() : "index should be an integer less than the size of the task list";
         return tasks.get(index);
     }
 

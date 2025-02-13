@@ -35,6 +35,8 @@ public class Bob {
      * @throws BobException If the file containing data in the hard disk cannot be loaded.
      */
     public String run() throws BobException {
+        assert this.storage != null : "Bob's storage should be initialised before it is ran";
+        assert this.ui != null : "Bob's UI should be initialised before it is ran";
         try {
             this.storage.loadFile(filePath);
         } catch (Exception e) {
@@ -63,6 +65,8 @@ public class Bob {
      * @throws BobException If an error has occurred during execution of user's command.
      */
     public String getResponse(String input) throws BobException {
+        assert this.ui != null : "Bob's UI should be initialised before it is ran";
+        assert this.parser != null : "Bob's parser should be initialised before it is ran";
         return this.ui.interact(this.parser, input);
     }
 
