@@ -9,19 +9,20 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import bob.commands.CreateCommand;
 import bob.task.Deadline;
 import bob.task.Task;
 
-public class ParserTest {
+public class CreateCommandTest {
 
     @Test
     public void createDeadlineTask_success() throws Exception {
         LocalDateTime deadline = LocalDateTime.of(2025, Month.JANUARY, 25, 23, 59);
         Deadline expected = new Deadline("assignment 1", deadline);
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
-        Parser parser = new Parser(tasks, new Storage(tasks));
+        CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         assertEquals(expected.toString(),
-                parser.createDeadlineTask("deadline assignment 1 /by 25-01-2025 23:59").toString());
+                command.createDeadlineTask("deadline assignment 1 /by 25-01-2025 23:59").toString());
     }
 
     @Test
@@ -29,9 +30,9 @@ public class ParserTest {
         LocalDateTime deadline = LocalDateTime.of(2025, Month.JANUARY, 25, 23, 59);
         Deadline expected = new Deadline("assignment 1", deadline);
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
-        Parser parser = new Parser(tasks, new Storage(tasks));
+        CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         try {
-            assertEquals(expected, parser.createDeadlineTask("deadline"));
+            assertEquals(expected, command.createDeadlineTask("deadline"));
             fail(); // the test should not reach this line
         } catch (Exception e) {
             assertEquals("I can't create tasks with no descriptions :(", e.getMessage());
@@ -43,9 +44,9 @@ public class ParserTest {
         LocalDateTime deadline = LocalDateTime.of(2025, Month.JANUARY, 25, 23, 59);
         Deadline expected = new Deadline("assignment 1", deadline);
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
-        Parser parser = new Parser(tasks, new Storage(tasks));
+        CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         try {
-            assertEquals(expected, parser.createDeadlineTask("deadline  /by 25-01-2025 23:59"));
+            assertEquals(expected, command.createDeadlineTask("deadline  /by 25-01-2025 23:59"));
             fail(); // the test should not reach this line
         } catch (Exception e) {
             assertEquals("I can't create tasks with no descriptions :(", e.getMessage());
@@ -57,9 +58,9 @@ public class ParserTest {
         LocalDateTime deadline = LocalDateTime.of(2025, Month.JANUARY, 25, 23, 59);
         Deadline expected = new Deadline("assignment 1", deadline);
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
-        Parser parser = new Parser(tasks, new Storage(tasks));
+        CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         try {
-            assertEquals(expected, parser.createDeadlineTask("deadline assignment 1"));
+            assertEquals(expected, command.createDeadlineTask("deadline assignment 1"));
             fail(); // the test should not reach this line
         } catch (Exception e) {
             assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
@@ -71,9 +72,9 @@ public class ParserTest {
         LocalDateTime deadline = LocalDateTime.of(2025, Month.JANUARY, 25, 23, 59);
         Deadline expected = new Deadline("assignment 1", deadline);
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
-        Parser parser = new Parser(tasks, new Storage(tasks));
+        CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         try {
-            assertEquals(expected, parser.createDeadlineTask("deadline assignment 1 / by"));
+            assertEquals(expected, command.createDeadlineTask("deadline assignment 1 / by"));
             fail(); // the test should not reach this line
         } catch (Exception e) {
             assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
