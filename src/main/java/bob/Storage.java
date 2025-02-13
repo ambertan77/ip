@@ -201,4 +201,22 @@ public class Storage {
             throw new BobException("Unable to add file contents: " + e.getMessage());
         }
     }
+
+    /**
+     * Returns a boolean indicating whether the file in hard disk is newly created.
+     *
+     * @return A boolean indicating if the file in hard disk is new.
+     */
+    public boolean getIsNewFile() {
+        return this.isNewFile;
+    }
+
+    /**
+     * Sets the isNewFile attribute to be the parameter passed.
+     *
+     * @param indicator A boolean indicating if the file in hard disk is new.
+     */
+    public void setIsNewFile(boolean indicator) {
+        this.isNewFile = indicator;
+    }
 }
