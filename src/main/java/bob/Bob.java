@@ -65,4 +65,13 @@ public class Bob {
     public String getResponse(String input) throws BobException {
         return this.ui.interact(this.parser, input);
     }
+
+    /**
+     * Returns the file path of the file containing the data of items in the task list.
+     *
+     * @return The file path for the file stored in the hard disk.
+     */
+    public String getFilePath() {
+        return this.filePath;
+    }
 }
