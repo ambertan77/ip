@@ -2,7 +2,6 @@ package bob.gui;
 
 // code adapted from https://se-education.org/guides/tutorials/javaFxPart3.html
 
-import bob.gui.Main;
 import javafx.application.Application;
 
 /**

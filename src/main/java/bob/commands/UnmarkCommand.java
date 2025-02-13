@@ -15,13 +15,14 @@ import bob.task.Task;
  */
 public class UnmarkCommand {
 
-    private TaskList tasks;
-    private Storage storage;
-    private String filePath;
     /**
      * An immutable string containing the header to be printed when the unmark command is used.
      */
     public static final String UNMARK_HEADER = "OK, I've marked this task as not done yet:\n";
+
+    private TaskList tasks;
+    private Storage storage;
+    private String filePath;
 
     /**
      * Creates a new instance of an "unmark" command.
@@ -50,8 +51,8 @@ public class UnmarkCommand {
             taskToUnmark = tasks.get(indexToUnmark);
             taskToUnmark.markAsUndone();
         } catch (IndexOutOfBoundsException e) {
-            throw new BobException("The index provided must be less than the " +
-                    "number of tasks currently in the task list.");
+            throw new BobException("The index provided must be less than the "
+                    + "number of tasks currently in the task list.");
         }
 
         try {

@@ -4,7 +4,6 @@ package bob.gui;
 
 import bob.Bob;
 import bob.BobException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;

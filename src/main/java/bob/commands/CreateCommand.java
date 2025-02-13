@@ -21,15 +21,22 @@ import bob.task.Todos;
  */
 public class CreateCommand {
 
-    private TaskList tasks;
-    private Storage storage;
-    private String filePath;
-
     /**
      * An immutable string containing the header to be printed when the create command is used.
      */
     public static final String CREATE_HEADER = "Got it. I've added this task:\n";
 
+    private TaskList tasks;
+    private Storage storage;
+    private String filePath;
+
+    /**
+     * Creates a new instance of a "create" command.
+     *
+     * @param tasks List of tasks the user has input.
+     * @param storage Where tasks created in all instances of the bot are stored.
+     * @param filePath File path of the file containing information about the task list.
+     */
     public CreateCommand(TaskList tasks, Storage storage, String filePath) {
         this.tasks = tasks;
         this.storage = storage;
@@ -171,6 +178,11 @@ public class CreateCommand {
         throw new BobException("Please choose between creating a todo, deadline or event!");
     }
 
+    /**
+     * Executes the "create" command.
+     *
+     * @return A string containing the information of the newly created task.
+     */
     public String execute(String input) throws BobException {
         Task task = createTask(input); // call helper method to create the task
         tasks.add(task);

@@ -5,7 +5,6 @@ package bob.commands;
 // The package structure and the OOP logic (related to commands in Parser.java) are inspired by the above repository,
 // but the methods and logic within this class were created independently.
 
-import bob.Bob;
 import bob.BobException;
 import bob.Storage;
 import bob.TaskList;
@@ -16,14 +15,14 @@ import bob.task.Task;
  */
 public class MarkCommand {
 
-    private TaskList tasks;
-    private Storage storage;
-    private String filePath;
-
     /**
      * An immutable string containing the header to be printed when the mark command is used.
      */
     public static final String MARK_HEADER = "Nice! I've marked this task as done:\n";
+
+    private TaskList tasks;
+    private Storage storage;
+    private String filePath;
 
     /**
      * Creates a new instance of a "mark" command.
@@ -52,8 +51,8 @@ public class MarkCommand {
             taskToMark = tasks.get(indexToMark);
             taskToMark.markAsDone();
         } catch (IndexOutOfBoundsException e) {
-            throw new BobException("The index provided must be less than the " +
-                    "number of tasks currently in the task list.");
+            throw new BobException("The index provided must be less than the "
+                    + "number of tasks currently in the task list.");
         }
 
         try {

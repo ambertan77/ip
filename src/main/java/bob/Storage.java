@@ -213,8 +213,8 @@ public class Storage {
         } else if (storedInput.startsWith("T")) {
             output = createTodoTaskFromFile(split);
         } else {
-            throw new BobException("Ensure that the tasks in file are " +
-                    "either a Deadline task, Event task or Todo task.");
+            throw new BobException("Ensure that the tasks in file are "
+                    + "either a Deadline task, Event task or Todo task.");
         }
 
         if (storedInput.charAt(4) == '1') {

@@ -5,16 +5,15 @@ package bob.commands;
 // The package structure and the OOP logic (related to commands in Parser.java) are inspired by the above repository,
 // but the methods and logic within this class were created independently.
 
+import java.util.ArrayList;
+
 import bob.TaskList;
 import bob.task.Task;
-
-import java.util.ArrayList;
 
 /**
  * Represents a FindCommand that has been called by the user.
  */
 public class FindCommand {
-    private TaskList tasks;
 
     /**
      * An immutable string containing the header to be printed when the find command is used.
@@ -25,6 +24,8 @@ public class FindCommand {
      * An immutable string containing the message to user that there have been no matches found.
      */
     public static final String NO_MATCHES_FOUND = "No matches to your search key.";
+
+    private TaskList tasks;
 
     /**
      * Creates a new instance of a "find" command.

@@ -12,8 +12,6 @@ import bob.TaskList;
  */
 public class ListCommand {
 
-    private TaskList tasks;
-
     /**
      * An immutable string containing the header to be printed when the list command is used.
      */
@@ -23,6 +21,8 @@ public class ListCommand {
      * An immutable string informing the user that there are no items in the task list.
      */
     public static final String NO_ITEMS_RESPONSE = "No tasks in list currently. Let's add one now!";
+
+    private TaskList tasks;
 
     /**
      * Creates a new instance of a "list" command.

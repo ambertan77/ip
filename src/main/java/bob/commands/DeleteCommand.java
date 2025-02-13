@@ -14,13 +14,14 @@ import bob.task.Task;
  * Represents a DeleteCommand that has been called by the user.
  */
 public class DeleteCommand {
-    private TaskList tasks;
-    private Storage storage;
-    private String filePath;
+
     /**
      * An immutable string containing the header to be printed when the delete command is used.
      */
     public static final String DELETE_HEADER = "Nice! I've marked this task as done:\n";
+    private TaskList tasks;
+    private Storage storage;
+    private String filePath;
 
     /**
      * Creates a new instance of a "delete" command.
