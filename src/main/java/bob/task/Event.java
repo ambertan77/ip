@@ -44,6 +44,7 @@ public class Event extends Task {
      *
      * @return Letter representation of the type of task.
      */
+    @Override
     public String getType() {
         return "E";
     }
