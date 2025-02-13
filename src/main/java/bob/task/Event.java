@@ -14,6 +14,7 @@ public class Event extends Task {
 
     protected LocalDateTime from;
     protected LocalDateTime to;
+    private DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
 
     /**
      * Creates a new instance of an Event task.
@@ -44,6 +45,7 @@ public class Event extends Task {
      *
      * @return Letter representation of the type of task.
      */
+    @Override
     public String getType() {
         return "E";
     }
@@ -66,7 +68,6 @@ public class Event extends Task {
      */
     public String getFrom() {
         assert this.from != null : "the starting time of this event must be indicated";
-        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.from.format(outputStringFormat);
     }
 
@@ -79,7 +80,6 @@ public class Event extends Task {
      */
     public String getTo() {
         assert this.to != null : "the ending time of this event must be indicated";
-        DateTimeFormatter outputStringFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
         return this.to.format(outputStringFormat);
     }
 }

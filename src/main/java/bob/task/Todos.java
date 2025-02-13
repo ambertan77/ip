@@ -34,6 +34,7 @@ public class Todos extends Task {
      *
      * @return Letter representation of the type of task.
      */
+    @Override
     public String getType() {
         return "T";
     }

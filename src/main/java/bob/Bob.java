@@ -24,7 +24,7 @@ public class Bob {
         this.filePath = filePath;
         this.tasks = new TaskList(new ArrayList<Task>(100));
         this.storage = new Storage(this.tasks);
-        this.parser = new Parser(this.tasks, this.storage);
+        this.parser = new Parser(this.tasks, this.storage, this);
         this.ui = new Ui();
     }
 
@@ -68,5 +68,14 @@ public class Bob {
         assert this.ui != null : "Bob's UI should be initialised before it is ran";
         assert this.parser != null : "Bob's parser should be initialised before it is ran";
         return this.ui.interact(this.parser, input);
+    }
+
+    /**
+     * Returns the file path of the file containing the data of items in the task list.
+     *
+     * @return The file path for the file stored in the hard disk.
+     */
+    public String getFilePath() {
+        return this.filePath;
     }
 }

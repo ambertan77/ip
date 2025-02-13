@@ -68,7 +68,26 @@ public class TaskList {
         return result;
     }
 
+    /**
+     * Returns the number of tasks in the task list.
+     *
+     * @return Number of tasks in the task list.
+     */
     public int getCount() {
         return this.count;
+    }
+
+    /**
+     * Increases the number of tasks in the task list by 1.
+     */
+    public void incrementCount() {
+        this.count++;
+    }
+
+    /**
+     * Decreases the number of tasks in the task list by 1.
+     */
+    public void decrementCount() {
+        this.count--;
     }
 }

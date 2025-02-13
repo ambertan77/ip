@@ -41,6 +41,7 @@ public class Deadline extends Task {
      *
      * @return Letter representation of the type of task.
      */
+    @Override
     public String getType() {
         return "D";
     }
