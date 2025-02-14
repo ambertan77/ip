@@ -1,6 +1,7 @@
 package bob;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import bob.task.Task;
 
@@ -13,6 +14,7 @@ public class TaskList {
 
     // store the list of tasks
     protected ArrayList<Task> tasks;
+    protected HashMap<Task, ArrayList<Task>> duplicates = new HashMap<>();
 
     /**
      * Creates a new instance of a TaskList.
@@ -86,5 +88,35 @@ public class TaskList {
      */
     public void decrementCount() {
         this.count--;
+    }
+
+    public void trackDuplicate(Task key, Task duplicateTask) {
+        if (duplicates.containsKey(key)) {
+            ArrayList<Task> list = duplicates.get(key);
+            list.add(duplicateTask);
+            duplicates.put(key, list);
+        } else {
+            ArrayList<Task> list = new ArrayList<>();
+            list.add(duplicateTask);
+            duplicates.put(key, list);
+        }
+    }
+
+    public boolean detectDuplicates() {
+        boolean hasDuplicates = false;
+        for (int i = 0; i < tasks.size(); i++) {
+            for (int j = i + 1; j < tasks.size(); j++) {
+                if (tasks.get(i).toString().equals(tasks.get(j).toString())) {
+                    hasDuplicates = true;
+                    trackDuplicate(tasks.get(i), tasks.get(j));
+                }
+            }
+        }
+        return hasDuplicates;
+    }
+
+
+    public void resetDuplicates() {
+        duplicates = new HashMap<Task, ArrayList<Task>>();
     }
 }
