@@ -34,7 +34,7 @@ public class CreateCommandTest {
         try {
             assertEquals(expected, command.createDeadlineTask("deadline"));
             fail(); // the test should not reach this line
-        } catch (Exception e) {
+        } catch (BobException e) {
             assertEquals("I can't create tasks with no descriptions :(", e.getMessage());
         }
     }
@@ -48,7 +48,7 @@ public class CreateCommandTest {
         try {
             assertEquals(expected, command.createDeadlineTask("deadline  /by 25-01-2025 23:59"));
             fail(); // the test should not reach this line
-        } catch (Exception e) {
+        } catch (BobException e) {
             assertEquals("I can't create tasks with no descriptions :(", e.getMessage());
         }
     }
@@ -62,7 +62,7 @@ public class CreateCommandTest {
         try {
             assertEquals(expected, command.createDeadlineTask("deadline assignment 1"));
             fail(); // the test should not reach this line
-        } catch (Exception e) {
+        } catch (BobException e) {
             assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
         }
     }
@@ -76,7 +76,7 @@ public class CreateCommandTest {
         try {
             assertEquals(expected, command.createDeadlineTask("deadline assignment 1 / by"));
             fail(); // the test should not reach this line
-        } catch (Exception e) {
+        } catch (BobException e) {
             assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
         }
     }
