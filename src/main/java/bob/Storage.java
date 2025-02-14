@@ -92,7 +92,7 @@ public class Storage {
                         + " / " + event.getFrom() + " / " + event.getTo();
             } else if (task instanceof Todos) {
                 Todos todo = (Todos) task;
-                text = " T / " + todo.getStatus() + " / " + todo.getDescription();
+                text = "T / " + todo.getStatus() + " / " + todo.getDescription();
             }
             fw.write(text);
             fw.close();
