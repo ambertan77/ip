@@ -6,9 +6,9 @@ import bob.Storage;
 import bob.TaskList;
 import bob.task.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+/**
+ * Represents a RemoveDuplicateCommand that has been called by the user.
+ */
 public class RemoveDuplicatesCommand {
 
     private TaskList tasks;
@@ -17,6 +17,13 @@ public class RemoveDuplicatesCommand {
     private String filePath;
     private boolean hasDuplicates;
 
+    /**
+     * Creates a new instance of a "remove duplicates" command.
+     *
+     * @param tasks List of tasks the user has input.
+     * @param storage Where tasks created in all instances of the bot are stored.
+     * @param bob The current instance of the Bob chatbot.
+     */
     public RemoveDuplicatesCommand(TaskList tasks, Storage storage, Bob bob) {
         this.tasks = tasks;
         this.storage = storage;
@@ -25,6 +32,11 @@ public class RemoveDuplicatesCommand {
         this.hasDuplicates = tasks.detectDuplicates();
     }
 
+    /**
+     * Executes the "remove duplicates" command.
+     *
+     * @return A string notifying the user whether duplicates have been removed.
+     */
     public String execute() {
         if (!hasDuplicates) {
             return "No duplicates found.";

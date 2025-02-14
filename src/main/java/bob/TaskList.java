@@ -90,6 +90,9 @@ public class TaskList {
         this.count--;
     }
 
+    /**
+     * Tracks which tasks have duplicates by using a HashMap.
+     */
     public void trackDuplicate(Task key, Task duplicateTask) {
         if (duplicates.containsKey(key)) {
             ArrayList<Task> list = duplicates.get(key);
@@ -102,6 +105,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Checks if the current task list has dupplicated tasks.
+     *
+     * @return Whether duplicates exist in the task list.
+     */
     public boolean detectDuplicates() {
         boolean hasDuplicates = false;
         for (int i = 0; i < tasks.size(); i++) {
@@ -116,6 +124,9 @@ public class TaskList {
     }
 
 
+    /**
+     * Empties the HashMap containing duplicates.
+     */
     public void resetDuplicates() {
         duplicates = new HashMap<Task, ArrayList<Task>>();
     }
