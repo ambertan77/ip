@@ -35,6 +35,9 @@ public class Ui {
     public String interact(Parser parser, String input) throws BobException {
         String output;
 
+        boolean isCreateCommand = (input.startsWith("todo ") || input.startsWith("deadline "))
+                || input.startsWith("event ");
+
         if (input.equals("list")) {
             output = parser.execute(Parser.Command.LIST, input);
         } else if (input.startsWith("mark ")) {
@@ -47,8 +50,14 @@ public class Ui {
             output = parser.execute(Parser.Command.FIND, input);
         } else if (input.equals("bye")) {
             output = this.exit();
-        } else {
+        } else if (input.equals("check duplicates")) {
+            output = parser.execute(Parser.Command.CHECK_DUPLICATES, input);
+        } else if (input.equals("remove duplicates")) {
+            output = parser.execute(Parser.Command.REMOVE_DUPLICATES, input);
+        } else if (isCreateCommand) {
             output = parser.execute(Parser.Command.CREATE, input);
+        } else {
+            throw new BobException("This command is currently not supported by Bob :(");
         }
 
         return output;

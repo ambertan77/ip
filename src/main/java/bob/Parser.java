@@ -1,11 +1,14 @@
 package bob;
 
+import bob.commands.CheckDuplicatesCommand;
 import bob.commands.CreateCommand;
 import bob.commands.DeleteCommand;
 import bob.commands.FindCommand;
 import bob.commands.ListCommand;
 import bob.commands.MarkCommand;
+import bob.commands.RemoveDuplicatesCommand;
 import bob.commands.UnmarkCommand;
+
 
 /**
  * Represents the Parser that reads and executes the user's commands.
@@ -16,7 +19,7 @@ public class Parser {
      * Lists the different user commands supported.
      */
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, CREATE, FIND
+        LIST, MARK, UNMARK, DELETE, CREATE, FIND, CHECK_DUPLICATES, REMOVE_DUPLICATES
     }
 
     private Bob bob;
@@ -64,6 +67,12 @@ public class Parser {
         case FIND:
             FindCommand findCommand = new FindCommand(tasks);
             return findCommand.execute(input);
+        case CHECK_DUPLICATES:
+            CheckDuplicatesCommand checkDuplicatesCommand = new CheckDuplicatesCommand(tasks);
+            return checkDuplicatesCommand.execute();
+        case REMOVE_DUPLICATES:
+            RemoveDuplicatesCommand removeDuplicatesCommand = new RemoveDuplicatesCommand(tasks, storage, this.bob);
+            return removeDuplicatesCommand.execute();
         default:
             throw new BobException("The command you have entered is currently not supported by Bob :(");
         }
