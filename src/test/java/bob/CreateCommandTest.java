@@ -150,7 +150,7 @@ public class CreateCommandTest {
         //@@author ambertan77-reused
         // code reused from https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
         // with minor modifications
-        
+
         TaskList tasks = new TaskList(new ArrayList<Task>(100));
         CreateCommand command = new CreateCommand(tasks, new Storage(tasks), "./data/tasks.txt");
         Exception exception = assertThrows(BobException.class, () -> {
