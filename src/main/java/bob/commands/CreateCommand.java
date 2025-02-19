@@ -88,13 +88,13 @@ public class CreateCommand {
             String deadline = split[1].substring(3);
         } catch (ArrayIndexOutOfBoundsException e) {
             // throw exception since user did not add deadline
-            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: [description] /by [dd-mm-yyyy hh:mm]!");
         }
 
         String deadline = split[1].substring(3);
         if (deadline.equals("")) {
             // throw exception since user did not add a deadline
-            throw new BobException("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!");
+            throw new BobException("Please add a deadline in the format: [description] /by [dd-mm-yyyy hh:mm]!");
         }
 
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
@@ -137,17 +137,23 @@ public class CreateCommand {
             String to = split[2].substring(3);
         } catch (StringIndexOutOfBoundsException e1) {
             // throw exception since there are empty "from" or "to fields
-            throw new BobException("Please add both the starting and ending date/time!");
+            String errorMessage = "Please add both the starting and ending date/time! " +
+                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            throw new BobException(errorMessage);
         } catch (ArrayIndexOutOfBoundsException e2) {
             // throw exception since there are empty "from" or "to fields
-            throw new BobException("Please add both the starting and ending date/time!");
+            String errorMessage = "Please add both the starting and ending date/time! " +
+                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            throw new BobException(errorMessage);
         }
 
         String from = split[1].substring(5);
         String to = split[2].substring(3);
         if (from.equals("") || to.equals("")) {
             // throw exception since there are empty "from" or "to fields
-            throw new BobException("Please add both the starting and ending date/time!");
+            String errorMessage = "Please add both the starting and ending date/time! " +
+                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            throw new BobException(errorMessage);
         }
 
         // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)

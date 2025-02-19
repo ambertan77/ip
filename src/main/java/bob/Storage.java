@@ -61,7 +61,7 @@ public class Storage {
             try {
                 addFileContents();
             } catch (Exception e) {
-                throw new BobException("Unable to add file contents into storage.");
+                throw new BobException("Unable to add file contents into data.txt.");
             }
         }
     }
