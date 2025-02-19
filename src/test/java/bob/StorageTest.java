@@ -1,5 +1,8 @@
 package bob;
 
+// all methods inspired by https://nus-cs2103-ay2425s2.github.io/website/schedule/week3/topics.html#w3-7-unit-testing
+// under section W3.7d
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
