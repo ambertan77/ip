@@ -18,7 +18,7 @@ public class DeleteCommand {
     /**
      * An immutable string containing the header to be printed when the delete command is used.
      */
-    public static final String DELETE_HEADER = "Nice! I've marked this task as done:\n";
+    public static final String DELETE_HEADER = "Noted! I have deleted this task:\n";
     private TaskList tasks;
     private Storage storage;
     private String filePath;
@@ -42,7 +42,7 @@ public class DeleteCommand {
      * @return A string containing the information of the deleted task.
      */
     public String execute(String input) throws BobException {
-        String outputForDelete = DELETE_HEADER + "\n";
+        String outputForDelete = DELETE_HEADER;
 
         int indexToDelete = Integer.valueOf(input.substring(7));
         indexToDelete--;
