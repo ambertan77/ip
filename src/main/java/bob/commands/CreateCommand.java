@@ -7,6 +7,7 @@ package bob.commands;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import bob.BobException;
 import bob.Storage;
@@ -97,10 +98,15 @@ public class CreateCommand {
             throw new BobException("Please add a deadline in the format: [description] /by [dd-mm-yyyy hh:mm]!");
         }
 
-        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
-        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-        DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
+        try {
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Deadline(desc, LocalDateTime.parse(deadline, inputDateTimeFormat));
+        } catch (DateTimeParseException e1) {
+            throw new BobException("Please ensure that the date and time are valid and"
+                    + " are added in the format 'dd-mm-yyyy hh:mm!'");
+        }
     }
 
     /**
@@ -156,11 +162,16 @@ public class CreateCommand {
             throw new BobException(errorMessage);
         }
 
-        // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
-        // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
-        DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return new Event(desc, LocalDateTime.parse(from, inputDateTimeFormat),
-                LocalDateTime.parse(to, inputDateTimeFormat));
+        try {
+            // code adapted from https://www.geeksforgeeks.org/java-time-localdatetime-class-in-java/ (Example 3)
+            // and https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+            DateTimeFormatter inputDateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            return new Event(desc, LocalDateTime.parse(from, inputDateTimeFormat),
+                    LocalDateTime.parse(to, inputDateTimeFormat));
+        } catch (DateTimeParseException e1) {
+            throw new BobException("Please ensure that the date and time are valid and"
+                    + " are added in the format 'dd-mm-yyyy hh:mm!'");
+        }
     }
 
     /**
