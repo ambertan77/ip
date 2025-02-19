@@ -26,21 +26,17 @@ Table of Contents
 + [Command Summary](#command-summary)
 
 ## Quick Start
-1. Install `Java 17` or above on your computer.
-   > [!IMPORTANT]
-   > For Mac users, please use precise JDK specified 
-   > [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Install `Java 17` or above on your computer. **For Mac users**, please use precise JDK specified
+   [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 2. Download the latest `bob.jar` file [here](https://github.com/ambertan77/ip/releases).
 3. Copy the file to the folder you want to use as the home folder for Bob.
 4. Open a command terminal and `cd` into the folder that the jar file is in.
-5. Use the `java -jar bob.jar` command to run the application.
-   > [!NOTE]
-   > A GUI similar to the product screenshot above will appear after a few seconds.
-   > A sub-folder called "data" should be created in the home folder containing the jar file. 
-   > Inside this sub-folder, there should be a data.txt file.
-6. Type the command you want to execute in the text bar at the bottom of the application. 
+5. Use the `java -jar bob.jar` command to run the application. 
+6. A GUI similar to the product screenshot above will appear after a few seconds. A sub-folder called "data" should be 
+   created in the home folder containing the jar file. Inside this sub-folder, there should be a data.txt file.
+7. Type the command you want to execute in the text bar at the bottom of the application. 
    Press the **SEND** button or press the Enter key to execute it.
-7. Refer to the Feature list below for all the commands that Bob currently supports.
+8. Refer to the Feature list below for all the commands that Bob currently supports.
 
 ## Features
 This section details the list of commands that Bob is currently able to execute. 
@@ -76,6 +72,7 @@ Adds tasks which have to be completed by a specific deadline.
 
 Format: `deadline DESCRIPTION /by DD-MM-YYYY HH:MM`
 + The date and time must be in the format specified above.
++ The time should be in the 24-hour clock format.
 
 Examples:
 + `deadline assignment 1 /by 21-02-2025 23:59`
@@ -95,6 +92,7 @@ Adds events, which have a specific start and end time.
 
 Format: `event DESCRIPTION /from DD-MM-YYYY HH:MM /to DD-MM-YYYY HH:MM`
 + All dates and times must be in the format specified above.
++ The time should be in the 24-hour clock format.
 
 Examples:
 + `event consult /from 23-02-2025 15:30 /to 23-02-2025 17:00`
