@@ -41,16 +41,20 @@ public class DeleteCommand {
      *
      * @return A string containing the information of the deleted task.
      */
-    public String execute(String input) {
+    public String execute(String input) throws BobException {
         String outputForDelete = DELETE_HEADER + "\n";
 
         int indexToDelete = Integer.valueOf(input.substring(7));
         indexToDelete--;
 
-        Task taskToDelete = tasks.get(indexToDelete);
-        outputForDelete = outputForDelete + taskToDelete.toString() + "\n";
-        tasks.remove(taskToDelete);
-        tasks.decrementCount();
+        try {
+            Task taskToDelete = tasks.get(indexToDelete);
+            outputForDelete = outputForDelete + taskToDelete.toString() + "\n";
+            tasks.remove(taskToDelete);
+            tasks.decrementCount();
+        } catch (IndexOutOfBoundsException e) {
+            throw new BobException("Please provide a number that is smaller than the number of items in the list.");
+        }
 
         try {
             Task firstTask = tasks.get(0);
