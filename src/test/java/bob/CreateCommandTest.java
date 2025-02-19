@@ -63,7 +63,8 @@ public class CreateCommandTest {
             assertEquals(expected, command.createDeadlineTask("deadline assignment 1"));
             fail(); // the test should not reach this line
         } catch (BobException e) {
-            assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
+            String expectedErrorMessage = "Please add a deadline in the format: [description] /by [dd-mm-yyyy hh:mm]!";
+            assertEquals(expectedErrorMessage, e.getMessage());
         }
     }
 
@@ -77,7 +78,8 @@ public class CreateCommandTest {
             assertEquals(expected, command.createDeadlineTask("deadline assignment 1 / by"));
             fail(); // the test should not reach this line
         } catch (BobException e) {
-            assertEquals("Please add a deadline in the format: /by [dd-mm-yyyy hh:mm]!", e.getMessage());
+            String expectedErrorMessage = "Please add a deadline in the format: [description] /by [dd-mm-yyyy hh:mm]!";
+            assertEquals(expectedErrorMessage, e.getMessage());
         }
     }
 }
