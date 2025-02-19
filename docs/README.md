@@ -4,7 +4,7 @@
 
 Do you have way too many tasks to complete? Are you finding it difficult to keep track of all of them?
 
-Introducing... Bob!:partying_face: Bob is an easy-to-use chatbot that keeps track of your to-do list for you!
+Introducing... Bob! :partying_face: Bob is an easy-to-use chatbot that keeps track of your to-do list for you!
 
 Table of Contents
 + [Quick Start](#quick-start)
