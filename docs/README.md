@@ -1,6 +1,6 @@
 # Bob User Guide
 
-![Screenshot of an example chat with Bob!](Ui.png)
+<img src="Ui.png" alt="Screenshot of an example chat with Bob!" width="400"/>
 
 Do you have way too many tasks to complete? Are you finding it difficult to keep track of all of them?
 
