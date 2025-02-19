@@ -33,7 +33,7 @@ Table of Contents
 4. Open a command terminal and `cd` into the folder that the jar file is in.
 5. Use the `java -jar bob.jar` command to run the application. 
 6. A GUI similar to the product screenshot above will appear after a few seconds. A sub-folder called "data" should be 
-   created in the home folder containing the jar file. Inside this sub-folder, there should be a data.txt file.
+   created in the home folder containing the jar file. Inside this sub-folder, there should be a tasks.txt file.
 7. Type the command you want to execute in the text bar at the bottom of the application. 
    Press the **SEND** button or press the Enter key to execute it.
 8. Refer to the Feature list below for all the commands that Bob currently supports.
@@ -212,9 +212,9 @@ close any other application. To get the exit message from Bob, command `bye`.
 ## Data file in hard disk
 
 The task list will be saved inside a file on your hard disk. In the folder containing the `bob.jar` file, a sub-folder 
-called `data` will be created and will contain a `data.txt` file. The most updated task list will be saved here. 
+called `data` will be created and will contain a `tasks.txt` file. The most updated task list will be saved here. 
 
-When you re-run the `bob.jar` file and command `list`, Bob will output the all the tasks in the `data.txt` file.
+When you re-run the `bob.jar` file and command `list`, Bob will output the all the tasks in the `tasks.txt` file.
 
 ### Format in which tasks are saved
 One line represents information about one specific task. The different attributes of the task are separated by a slash.
@@ -235,7 +235,7 @@ E / consult / 17-03-2025, 09:00 / 18/03/2025, 10:00
 ```
 
 ### Editing the data file
-Using a text editor, open and edit the `data.txt` file. 
+Using a text editor, open and edit the `tasks.txt` file. 
 Use the format specified above if you are editing or adding new tasks. 
 
 ## Command Summary
