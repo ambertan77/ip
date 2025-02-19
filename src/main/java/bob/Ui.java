@@ -73,7 +73,7 @@ public class Ui {
     public String interactWithErrorsHandled(Parser parser, String input) {
         try {
             return interact(parser, input);
-        } catch (BobException e){
+        } catch (BobException e) {
             return e.getMessage();
         }
     }

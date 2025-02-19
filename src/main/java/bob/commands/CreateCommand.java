@@ -137,13 +137,13 @@ public class CreateCommand {
             String to = split[2].substring(3);
         } catch (StringIndexOutOfBoundsException e1) {
             // throw exception since there are empty "from" or "to fields
-            String errorMessage = "Please add both the starting and ending date/time! " +
-                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            String errorMessage = "Please add both the starting and ending date/time! "
+                    + "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
             throw new BobException(errorMessage);
         } catch (ArrayIndexOutOfBoundsException e2) {
             // throw exception since there are empty "from" or "to fields
-            String errorMessage = "Please add both the starting and ending date/time! " +
-                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            String errorMessage = "Please add both the starting and ending date/time! "
+                    + "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
             throw new BobException(errorMessage);
         }
 
@@ -151,8 +151,8 @@ public class CreateCommand {
         String to = split[2].substring(3);
         if (from.equals("") || to.equals("")) {
             // throw exception since there are empty "from" or "to fields
-            String errorMessage = "Please add both the starting and ending date/time! " +
-                    "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
+            String errorMessage = "Please add both the starting and ending date/time! "
+                    + "Add an event in the format: [description] /from [dd-mm-yyyy hh:mm] /to [dd-mm-yyyy hh:mm]";
             throw new BobException(errorMessage);
         }
 
