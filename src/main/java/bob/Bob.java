@@ -18,7 +18,6 @@ public class Bob {
      * Creates a new instance of Bob. Loads the file containing data in the hard disk.
      *
      * @param filePath File path of the file in hard disk containing previous data.
-     * @throws BobException If there is an error loading the file in the hard disk.
      */
     public Bob(String filePath) {
         this.filePath = filePath;
@@ -32,15 +31,15 @@ public class Bob {
      * Loads the file in the specified file path.
      * This method kick-starts all interactions between the chatbot and the user.
      *
-     * @throws BobException If the file containing data in the hard disk cannot be loaded.
+     * @return A string containing the greeting message, or error message if an error has occurred.
      */
-    public String run() throws BobException {
+    public String run() {
         assert this.storage != null : "Bob's storage should be initialised before it is ran";
         assert this.ui != null : "Bob's UI should be initialised before it is ran";
         try {
             this.storage.loadFile(filePath);
-        } catch (Exception e) {
-            throw new BobException(e.getMessage());
+        } catch (BobException e) {
+            return e.getMessage();
         }
         return this.ui.greet();
     }
@@ -52,9 +51,8 @@ public class Bob {
      * interactions between the user and the chatbot.
      *
      * @param args The command line arguments.
-     * @throws BobException If any error occurs during user interaction.
-     **/
-    public static void main(String[] args) throws BobException {
+     */
+    public static void main(String[] args) {
         new Bob("./data/tasks.txt").run();
     }
 
@@ -62,12 +60,11 @@ public class Bob {
      * Generates a response for the user's chat message.
      *
      * @return Bob's response to the user's command.
-     * @throws BobException If an error has occurred during execution of user's command.
      */
-    public String getResponse(String input) throws BobException {
+    public String getResponse(String input) {
         assert this.ui != null : "Bob's UI should be initialised before it is ran";
         assert this.parser != null : "Bob's parser should be initialised before it is ran";
-        return this.ui.interact(this.parser, input);
+        return this.ui.interactWithErrorsHandled(this.parser, input);
     }
 
     /**

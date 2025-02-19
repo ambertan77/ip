@@ -62,4 +62,19 @@ public class Ui {
 
         return output;
     }
+
+    /**
+     * Responds to the user's commands through printing messages, with all errors handled.
+     *
+     * @param parser The parser reading and executing the user's commands.
+     * @param input The text input by the user in the GUI.
+     * @return A String containing the response of the chatbot, or details of the error that occurred.
+     */
+    public String interactWithErrorsHandled(Parser parser, String input) {
+        try {
+            return interact(parser, input);
+        } catch (BobException e){
+            return e.getMessage();
+        }
+    }
 }
