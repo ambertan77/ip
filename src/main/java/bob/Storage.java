@@ -101,6 +101,24 @@ public class Storage {
         }
     }
 
+    /**
+     * Stores the String input passed into the method by writing over the current items in the file.
+     *
+     * @param filePath The file path of the file storing data.
+     * @param input The String input to write to file.
+     * @throws BobException If the file cannot be read.
+     */
+    public void writeToFileWithStringInput(String filePath, String input) throws BobException {
+        assert (new File(filePath)).exists() : "file in hard disk should be loaded";
+        try {
+            FileWriter fw = new FileWriter(filePath);
+            fw.write(input);
+            fw.close();
+        } catch (IOException e) {
+            throw new BobException("Unable to write to file: " + e.getMessage());
+        }
+    }
+
     // create a method to append text to file instead of write over
     // method adapted from course website, under W3.4
     // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
