@@ -56,9 +56,8 @@ public class MarkCommand {
         }
 
         try {
-            Task firstTask = tasks.get(0);
-            storage.writeToFile(filePath, firstTask);
-            for (int i = 1; i < tasks.getCount(); i++) {
+            storage.writeToFileWithStringInput(filePath, "");
+            for (int i = 0; i < tasks.getCount(); i++) {
                 Task task = tasks.get(i);
                 storage.appendToFile(filePath, task);
             }

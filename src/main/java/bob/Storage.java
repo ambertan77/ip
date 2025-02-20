@@ -66,41 +66,6 @@ public class Storage {
         }
     }
 
-    // create a method to write over text
-    // method adapted from course website, under W3.4
-    // downcasting code adapted from https://www.geeksforgeeks.org/rules-of-downcasting-objects-in-java/
-    /**
-     * Stores the string representation of the task passed into the method by
-     * writing over the current items in the file.
-     *
-     * @param filePath The file path of the file storing data.
-     * @param task The task to be stored into the file.
-     * @throws BobException If the file cannot be read.
-     */
-    public void writeToFile(String filePath, Task task) throws BobException {
-        assert (new File(filePath)).exists() : "file in hard disk should be loaded";
-        try {
-            FileWriter fw = new FileWriter(filePath);
-            String text = "";
-            if (task instanceof Deadline) {
-                Deadline deadlineTask = (Deadline) task;
-                text = "D / " + deadlineTask.getStatus() + " / " + deadlineTask.getDescription()
-                        + " / " + deadlineTask.getDeadline();
-            } else if (task instanceof Event) {
-                Event event = (Event) task;
-                text = "E / " + event.getStatus() + " / " + event.getDescription()
-                        + " / " + event.getFrom() + " / " + event.getTo();
-            } else if (task instanceof Todos) {
-                Todos todo = (Todos) task;
-                text = "T / " + todo.getStatus() + " / " + todo.getDescription();
-            }
-            fw.write(text);
-            fw.close();
-        } catch (IOException e) {
-            throw new BobException("Unable to write to file: " + e.getMessage());
-        }
-    }
-
     /**
      * Stores the String input passed into the method by writing over the current items in the file.
      *
@@ -137,15 +102,15 @@ public class Storage {
             String text = "";
             if (task instanceof Deadline) {
                 Deadline deadlineTask = (Deadline) task;
-                text = System.lineSeparator() + "D / " + deadlineTask.getStatus() + " / "
-                        + deadlineTask.getDescription() + " / " + deadlineTask.getDeadline();
+                text = "D / " + deadlineTask.getStatus() + " / "
+                        + deadlineTask.getDescription() + " / " + deadlineTask.getDeadline() + System.lineSeparator();
             } else if (task instanceof Event) {
                 Event event = (Event) task;
-                text = System.lineSeparator() + "E / " + event.getStatus() + " / " + event.getDescription()
-                        + " / " + event.getFrom() + " / " + event.getTo();
+                text = "E / " + event.getStatus() + " / " + event.getDescription()
+                        + " / " + event.getFrom() + " / " + event.getTo() + System.lineSeparator();
             } else if (task instanceof Todos) {
                 Todos todo = (Todos) task;
-                text = System.lineSeparator() + "T / " + todo.getStatus() + " / " + todo.getDescription();
+                text = "T / " + todo.getStatus() + " / " + todo.getDescription() + System.lineSeparator();
             }
             fw.write(text);
             fw.close();
@@ -254,6 +219,9 @@ public class Storage {
             Scanner s = new Scanner(f);
             while (s.hasNext()) {
                 String storedInput = s.nextLine();
+                if (storedInput.isEmpty()) {
+                    break;
+                }
                 Task storedTask = createTaskFromFile(storedInput);
                 tasks.add(storedTask);
                 tasks.count++;

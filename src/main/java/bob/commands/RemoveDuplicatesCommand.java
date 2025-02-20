@@ -53,16 +53,10 @@ public class RemoveDuplicatesCommand {
         tasks.resetDuplicates();
 
         try {
-            Task firstTask = tasks.get(0);
-            storage.writeToFile(filePath, firstTask);
-            for (int i = 1; i < tasks.getCount(); i++) {
+            storage.writeToFileWithStringInput(filePath, "");
+            for (int i = 0; i < tasks.getCount(); i++) {
                 Task task = tasks.get(i);
-                if (storage.getIsNewFile()) {
-                    storage.writeToFile(filePath, task);
-                    storage.setIsNewFile(false);
-                } else {
-                    storage.appendToFile(filePath, task);
-                }
+                storage.appendToFile(filePath, task);
             }
         } catch (BobException e) {
             return "Unable to write to file.";

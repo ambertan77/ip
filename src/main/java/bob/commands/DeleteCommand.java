@@ -42,16 +42,10 @@ public class DeleteCommand {
      * @throws BobException If an error has occurred when writing to storage.
      */
     public void writeToStorage() throws BobException {
-        Task firstTask = tasks.get(0);
-        storage.writeToFile(filePath, firstTask);
-        for (int i = 1; i < tasks.getCount(); i++) {
+        storage.writeToFileWithStringInput(filePath, "");
+        for (int i = 0; i < tasks.getCount(); i++) {
             Task task = tasks.get(i);
-            if (storage.getIsNewFile()) {
-                storage.writeToFile(filePath, task);
-                storage.setIsNewFile(false);
-            } else {
-                storage.appendToFile(filePath, task);
-            }
+            storage.appendToFile(filePath, task);
         }
     }
 
@@ -78,6 +72,7 @@ public class DeleteCommand {
         try {
             if (tasks.getCount() == 0) {
                 storage.writeToFileWithStringInput(filePath, "");
+                storage.setIsNewFile(true);
             } else {
                 writeToStorage();
             }
