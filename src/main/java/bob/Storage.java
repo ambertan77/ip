@@ -54,14 +54,14 @@ public class Storage {
             try {
                 data.createNewFile();
             } catch (Exception e) {
-                throw new BobException("Unable to create new file: data.txt");
+                throw new BobException("Unable to create new file: tasks.txt");
             }
             isNewFile = true;
         } else {
             try {
                 addFileContents();
             } catch (Exception e) {
-                throw new BobException("Unable to add file contents into data.txt.");
+                throw new BobException("Unable to add file contents from tasks.txt.");
             }
         }
     }
