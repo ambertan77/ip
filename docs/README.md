@@ -4,7 +4,7 @@
 
 Do you have way too many tasks to complete? Are you finding it difficult to keep track of all of them?
 
-Introducing... Bob! :partying_face: Bob is an easy-to-use chatbot that keeps track of your to-do list for you!
+**_Introducing... Bob!_** Bob is an easy-to-use chatbot that keeps track of your to-do list for you!
 
 Table of Contents
 + [Quick Start](#quick-start)
@@ -58,13 +58,13 @@ Examples:
 + `todo exercise`
 + `todo read book`
 
-If executed successfully, Bob will return a output
+If executed successfully, Bob will return an output
 ```
 Got it. I've added this task:
 [T][ ] DESCRIPTION
 Now you have NUMBER_OF_TASKS in the list.
 ```
-where the `NUMBER_OF_TASKS` is the integer showing the number of tasks currently in your list.
+where the `NUMBER_OF_TASKS` is the number of tasks currently in your list.
 
 ### Adding tasks with a deadline
 
@@ -78,13 +78,13 @@ Examples:
 + `deadline assignment 1 /by 21-02-2025 23:59`
 + `deadline submit quiz /by 17-03-2025 16:00`
 
-If executed successfully, Bob will return a output
+If executed successfully, Bob will return an output
 ```
 Got it. I've added this task:
 [D][ ] DESCRIPTION (by: DD-MM-YYYY HH:MM)
 Now you have NUMBER_OF_TASKS in the list.
 ```
-where the `NUMBER_OF_TASKS` is the integer showing the number of tasks currently in your list.
+where the `NUMBER_OF_TASKS` is the number of tasks currently in your list.
 
 ### Adding events
 
@@ -98,13 +98,13 @@ Examples:
 + `event consult /from 23-02-2025 15:30 /to 23-02-2025 17:00`
 + `event student camp /from 01-06-2025 08:00 /to 03-06-2025 20:00`
 
-If executed successfully, Bob will return a output
+If executed successfully, Bob will return an output
 ```
 Got it. I've added this task:
 [E][ ] DESCRIPTION (from DD-MM-YYYY HH:MM to DD-MM-YYYY HH:MM)
 Now you have NUMBER_OF_TASKS in the list.
 ```
-where the `NUMBER_OF_TASKS` is the integer showing the number of tasks currently in your list.
+where the `NUMBER_OF_TASKS` is the number of tasks currently in your list.
 
 ### List all tasks
 
@@ -148,7 +148,7 @@ Format: `unmark INDEX`
 + Marks the task at specified `INDEX` as undone.
 + `INDEX` refers to the index number shown in the displayed task list.
 + `INDEX` must be a positive integer, with a value less than the number of items in the task list.
-+ Marking an `INDEX` that is already a uncompleted task will not give an error.
++ Marking an `INDEX` that is already an uncompleted task will not give an error.
 
 Example:
 + `list` followed by `unmark 2` will mark the 2nd task on the list as not completed.
@@ -168,8 +168,8 @@ Format: `delete INDEX`
 Example:
 + `list` followed by `delete 2` will delete the 2nd task on the list.
 
-If executed successfully, commanding `list` again will show the updated task list, which should no longer shows the 
-deleted task. The number of tasks in the task list will also decrease by one.
+If executed successfully, entering the `list` command again will show the updated task list, which should no longer 
+show the deleted task. The number of tasks in the task list will also decrease by one.
 
 ### Check for duplicates
 
@@ -187,7 +187,7 @@ For two tasks to be considered duplicates, the following must be the same:
 
 If executed successfully and no duplicates have been found, Bob will output: `No duplicates in list! :)`
 
-If executed successfully and duplicated have been found, Bob will output: `Duplicates exist. Type 'remove duplicates' 
+If executed successfully and duplicates have been found, Bob will output: `Duplicates exist. Type 'remove duplicates' 
 to remove all duplicates in list.`
 
 ### Remove duplicates
